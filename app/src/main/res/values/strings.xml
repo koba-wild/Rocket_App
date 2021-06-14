@@ -2,4 +2,10 @@
     <string name="app_name">DragonX</string>
     <string name="Splash_screen_description">SpaceX logo</string>
     <string name="image_of_the_rocket">Image of the rocket</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_rocket_details">Rocket details</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 </resources>
