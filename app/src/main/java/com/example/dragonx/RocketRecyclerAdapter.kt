@@ -35,6 +35,7 @@ class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRock
         val rocket_title: TextView = itemView.rocket_title
         val rocket_year: TextView = itemView.rockets_year
         val rockets_image: ImageView = itemView.rockets_image
+
         fun bind(rocket: Rocket, action: OnRocketClickListener) {
             rocket_title.setText(rocket.name)
             rocket_year.setText(rocket.year)
@@ -55,5 +56,4 @@ class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRock
 }
 interface OnRocketClickListener {
     fun onRocketClick(rocket: Rocket, position: Int)
-
 }
