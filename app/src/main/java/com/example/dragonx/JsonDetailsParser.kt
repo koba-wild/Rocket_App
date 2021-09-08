@@ -11,7 +11,6 @@ import com.example.dragonx.models.Rocket
 import java.net.URL
 
 class JsonDetailsParser () {
-    private lateinit var binding: RocketDetailsFragment
     lateinit var rocket: Rocket
     var imageList = ArrayList<SlideModel>()
     private lateinit var jsonArray: JsonArray<JsonObject>

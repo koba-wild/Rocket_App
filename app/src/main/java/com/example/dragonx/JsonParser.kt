@@ -10,13 +10,12 @@ import kotlinx.coroutines.launch
 class JsonParser {
     var rockets = arrayListOf<Rocket>()
     val images = arrayListOf("https://live.staticflickr.com/8578/16655995541_7817565ea9_k.jpg", "https://farm8.staticflickr.com/7647/16581815487_6d56cb32e1_b.jpg")
-    private lateinit var jsonArray: JsonArray<JsonObject>
 
     private fun parseJson () : JsonArray<JsonObject> {
         val result = URL("https://api.spacexdata.com/v4/dragons").readText()
         val parser: Parser = Parser()
         val stringBuilder: StringBuilder = StringBuilder(result)
-        jsonArray = parser.parse(stringBuilder) as JsonArray<JsonObject>
+        val jsonArray = parser.parse(stringBuilder) as JsonArray<JsonObject>
         return jsonArray
     }
 

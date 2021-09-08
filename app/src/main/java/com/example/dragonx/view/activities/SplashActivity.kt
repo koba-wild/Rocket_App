@@ -1,6 +1,5 @@
-package com.example.dragonx
+package com.example.dragonx.view.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +10,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.example.dragonx.R
 import com.example.dragonx.databinding.ActivitySplashActivityBinding
-
 
 
 class SplashActivity : AppCompatActivity() {
