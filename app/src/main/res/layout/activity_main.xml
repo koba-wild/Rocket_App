@@ -8,13 +8,9 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_rocket_list"
-        android:name="com.example.dragonx.RocketListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         tools:layout="@layout/fragment_rocket_list">
     </androidx.fragment.app.FragmentContainerView>
-
-
-
 </LinearLayout>

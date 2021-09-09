@@ -9,22 +9,17 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import com.example.dragonx.models.Rocket
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.URL
 
 class RocketListViewModel : ViewModel() {
-    private val _parsedRockets = MutableLiveData<ArrayList<Rocket>>()
-    val parsedRockets: LiveData<ArrayList<Rocket>>
-        get()  = _parsedRockets
-
     var rockets = arrayListOf<Rocket>()
     val images = arrayListOf("https://live.staticflickr.com/8578/16655995541_7817565ea9_k.jpg", "https://farm8.staticflickr.com/7647/16581815487_6d56cb32e1_b.jpg")
 
     init {
         Log.i("JsonParser", "JsonParser for RocketListFragment was created")
-        viewModelScope.launch {
-            _parsedRockets.apply { postValue(getRocketData()) }
-        }
     }
 
     private fun parseJson () : JsonArray<JsonObject> {
