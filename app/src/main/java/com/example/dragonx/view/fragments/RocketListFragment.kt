@@ -24,6 +24,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
     private val rocketsData = MutableLiveData<List<Rocket>>()
     private val myJob = Job()
     private val myScope = CoroutineScope(Dispatchers.IO + myJob)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
