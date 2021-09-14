@@ -8,12 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.models.SlideModel
-import com.example.dragonx.R
+import com.example.dragonx.databinding.FragmentRocketDetailsBinding
 import com.example.dragonx.models.Rocket
 import com.example.dragonx.viewmodel.RocketDetailsViewModel
-import com.example.dragonx.viewmodel.RocketListViewModel
-import kotlinx.android.synthetic.main.fragment_rocket_details.view.*
 import kotlinx.coroutines.*
 
 class RocketDetailsFragment : Fragment() {
@@ -22,11 +19,14 @@ class RocketDetailsFragment : Fragment() {
     private val myJob = Job()
     private val myScope = CoroutineScope(Dispatchers.IO + myJob)
 
+    private var _binding: FragmentRocketDetailsBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_rocket_details, container, false)
+        _binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
         var rocketNumber = arguments?.getInt("Rocket's number")
         viewModel = ViewModelProvider(this).get(RocketDetailsViewModel::class.java)
 
@@ -35,15 +35,21 @@ class RocketDetailsFragment : Fragment() {
         }
 
         rocket.observe(viewLifecycleOwner, {
-            view.rocketName.text = it.name
-            view.description.text = it.description
-            view.wikiLink.text = it.link
-            view.heightRocket.text = it.height
-            view.mass.text = it.mass
-            view.year.text = it.year
-            view.imageSlider.setImageList(viewModel.imagesForSlider(rocketNumber), ScaleTypes.FIT)
+            binding.rocketName.text = it.name
+            binding.description.text = it.description
+            binding.wikiLink.text = it.wikipedia
+            binding.heightRocket.text = it.height
+            binding.mass.text = it.mass
+            binding.year.text = it.first_flight
+            binding.imageSlider.setImageList(viewModel.imageList, ScaleTypes.FIT)
         })
+        val view = binding.root
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

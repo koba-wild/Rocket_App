@@ -12,16 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DragonX">
-        <activity android:name=".RocketDetails"
-            android:label="@string/title_activity_rocket_details"
-            android:parentActivityName=".view.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity"/>
-        </activity>
 
         <activity
-            android:name=".view.activities.SplashActivity"
+            android:name=".view.activities.MainActivity"
             android:theme="@style/Theme.DragonX.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

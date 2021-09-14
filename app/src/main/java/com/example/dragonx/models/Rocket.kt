@@ -8,13 +8,13 @@ class Rocket {
     @JvmField
     var description: String? = null
     @JvmField
-    var link: String? = null
+    var wikipedia: String? = null
     @JvmField
     var height: String? = null
     @JvmField
     var mass: String? = null
     @JvmField
-    var year: String? = null
+    var first_flight: String? = null
     @JvmField
-    var image: URL? = null
+    var flickr_images: Any? = null
 }

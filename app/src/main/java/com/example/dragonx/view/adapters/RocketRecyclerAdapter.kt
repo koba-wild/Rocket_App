@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.dragonx.databinding.RocketListLayoutBinding
 import com.example.dragonx.models.Rocket
-import kotlinx.android.synthetic.main.rocket_list_layout.view.*
 
 class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRocketClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -32,19 +32,20 @@ class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRock
     }
     class RocketViewHolder(itemView: View)
         : RecyclerView.ViewHolder(itemView) {
-        val rocket_title: TextView = itemView.rocket_title
-        val rocket_year: TextView = itemView.rockets_year
-        val rockets_image: ImageView = itemView.rockets_image
+        val binding = RocketListLayoutBinding.bind(itemView)
+        val rocket_title: TextView = binding.rocketTitle
+        val rocket_year: TextView = binding.rocketsYear
+        val rockets_image: ImageView = binding.rocketsImage
 
         fun bind(rocket: Rocket, action: OnRocketClickListener) {
             rocket_title.setText(rocket.name)
-            rocket_year.setText(rocket.year)
+            rocket_year.setText(rocket.first_flight)
 
             val requestOption = RequestOptions()
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
             Glide.with(itemView.context)
-                    .load(rocket.image)
+                    .load(rocket.flickr_images)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(rockets_image)
