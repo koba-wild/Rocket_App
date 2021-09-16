@@ -1,5 +1,7 @@
 package com.example.dragonx.models
 
+import com.beust.klaxon.JsonArray
+import com.denzcoskun.imageslider.models.SlideModel
 import java.net.URL
 
 class Rocket {
@@ -16,5 +18,7 @@ class Rocket {
     @JvmField
     var first_flight: String? = null
     @JvmField
-    var flickr_images: Any? = null
+    var flickr_images: String? = null
+    @JvmField
+    val imageList = ArrayList<SlideModel>()
 }

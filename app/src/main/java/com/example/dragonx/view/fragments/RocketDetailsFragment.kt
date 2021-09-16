@@ -5,43 +5,45 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.dragonx.databinding.FragmentRocketDetailsBinding
 import com.example.dragonx.models.Rocket
+import com.example.dragonx.util.Constants
+import com.example.dragonx.util.Constants.Companion.ROCKET_NUMBER
 import com.example.dragonx.viewmodel.RocketDetailsViewModel
-import kotlinx.coroutines.*
+import com.example.dragonx.viewmodel.ViewModelFactory
 
 class RocketDetailsFragment : Fragment() {
-    private lateinit var viewModel: RocketDetailsViewModel
-    private val rocket = MutableLiveData<Rocket>()
-    private val myJob = Job()
-    private val myScope = CoroutineScope(Dispatchers.IO + myJob)
-
     private var _binding: FragmentRocketDetailsBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+            fun newInstance(position: Int): RocketDetailsFragment {
+                val fragmentDetails = RocketDetailsFragment()
+                val bundle = Bundle()
+                bundle.putInt(ROCKET_NUMBER, position)
+                fragmentDetails.arguments = bundle
+                return fragmentDetails
+            }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
-        var rocketNumber = arguments?.getInt("Rocket's number")
-        viewModel = ViewModelProvider(this).get(RocketDetailsViewModel::class.java)
-
-        myScope.launch {
-            rocket.postValue(viewModel.parseJson(rocketNumber))
-        }
-
-        rocket.observe(viewLifecycleOwner, {
+        var rocketNumber = arguments?.getInt(ROCKET_NUMBER)
+        val viewModelFactory = ViewModelFactory(rocketNumber)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
+        viewModel.getRockets()
+        viewModel.rocketDetails.observe(viewLifecycleOwner, {
             binding.rocketName.text = it.name
             binding.description.text = it.description
             binding.wikiLink.text = it.wikipedia
             binding.heightRocket.text = it.height
             binding.mass.text = it.mass
             binding.year.text = it.first_flight
-            binding.imageSlider.setImageList(viewModel.imageList, ScaleTypes.FIT)
+            binding.imageSlider.setImageList(it.imageList, ScaleTypes.FIT)
         })
         val view = binding.root
         return view

@@ -1,25 +1,29 @@
 package com.example.dragonx.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.dragonx.models.Rocket
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 import java.net.URL
 
-class RocketDetailsViewModel : ViewModel() {
-    val imageList = ArrayList<SlideModel>()
+class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
+    val rocketDetails = MutableLiveData<Rocket>()
 
-    init {
-        Log.i("JsonParser", "JsonParser for RocketDetailsFragment was created")
+    fun getRockets() {
+        CoroutineScope(Dispatchers.IO).launch {
+            rocketDetails.postValue(parseJson(rocketNumber)!!)
+        }
     }
 
     suspend fun parseJson (rocketNumber:Int?): Rocket {
         lateinit var jsonArray: JsonArray<JsonObject>
-
         val result = URL("https://api.spacexdata.com/v4/dragons").readText()
         val parser: Parser = Parser()
         val stringBuilder: StringBuilder = StringBuilder(result)
@@ -29,58 +33,23 @@ class RocketDetailsViewModel : ViewModel() {
         rocket.description = jsonArray.string("description")[rocketNumber]
         rocket.wikipedia = jsonArray.string("wikipedia")[rocketNumber]
         rocket.height =
-            ("Diameter : meters : ${jsonArray.obj("diameter")[rocketNumber]?.double("meters")}," +
+            ("Diameter : ${jsonArray.obj("diameter")[rocketNumber]?.double("meters")}," +
                     " feet : ${jsonArray.obj("diameter")[rocketNumber]?.int("feet").toString()}")
         rocket.mass =
             ("Dry mass : ${jsonArray.int("dry_mass_kg")[rocketNumber]} (${jsonArray.int("dry_mass_lb")[0]}) lb")
 
         rocket.first_flight = jsonArray.string("first_flight")[rocketNumber]
-        rocket.flickr_images = jsonArray.get("flickr_images")[rocketNumber]
-        rocket.flickr_images.forEach {
-            imageList.add(
-                SlideModel(it, "Dragon1 pic.1")
+        val flickr_images = jsonArray.get("flickr_images")[rocketNumber] as JsonArray<String>
+        var arr = arrayOfNulls<String>(flickr_images.size)
+        for (i in 0 until flickr_images.size) {
+            arr[i] = flickr_images[i]
+        }
+        arr.forEach {
+            rocket.imageList.add(
+                SlideModel(it)
             )
         }
         return rocket
     }
 
-//    fun imagesForSlider(rocketNumber:Int?): ArrayList<SlideModel> {
-//        var imageList = ArrayList<SlideModel>()
-//        when(rocketNumber) {
-//            0 -> {  imageList.add(
-//                SlideModel(
-//                    "https://live.staticflickr.com/8578/16655995541_7817565ea9_k.jpg",
-//                    "Dragon1 pic.1")
-//            )
-//                imageList.add(
-//                    SlideModel(
-//                        "https://farm3.staticflickr.com/2815/32761844973_4b55b27d3c_b.jpg",
-//                        "Dragon1 pic.2")
-//                )
-//                imageList. add (
-//                    SlideModel(
-//                        "https://farm9.staticflickr.com/8618/16649075267_d18cbb4342_b.jpg",
-//                        "Dragon1 pic.3")
-//                )
-//            }
-//            1 -> {
-//                imageList.add(
-//                    SlideModel(
-//                        "https://farm8.staticflickr.com/7647/16581815487_6d56cb32e1_b.jpg",
-//                        "Dragon2 pic.1")
-//                )
-//                imageList.add(
-//                    SlideModel(
-//                        "https://farm1.staticflickr.com/780/21119686299_c88f63e350_b.jpg",
-//                        "Dragon2 pic.2")
-//                )
-//                imageList.add(
-//                    SlideModel(
-//                        "https://farm9.staticflickr.com/8588/16661791299_a236e2f5dc_b.jpg",
-//                        "Dragon2 pic.3")
-//                )
-//            }
-//        }
-//        return imageList
-//    }
 }

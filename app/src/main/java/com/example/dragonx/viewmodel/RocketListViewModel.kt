@@ -1,20 +1,24 @@
 package com.example.dragonx.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import com.example.dragonx.models.Rocket
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 import java.net.URL
 
 class RocketListViewModel() : ViewModel() {
-    var rockets = arrayListOf<Rocket>()
-    val images = arrayListOf("https://live.staticflickr.com/8578/16655995541_7817565ea9_k.jpg", "https://farm8.staticflickr.com/7647/16581815487_6d56cb32e1_b.jpg")
+    var rocketsData = MutableLiveData<List<Rocket>>()
 
-    init {
-        Log.i("JsonParser", "JsonParser for RocketListFragment was created")
+    fun getRockets() {
+        CoroutineScope(Dispatchers.IO).launch {
+            rocketsData.postValue(getRocketData()!!)
+        }
     }
 
     private fun parseJson () : JsonArray<JsonObject> {
@@ -25,13 +29,14 @@ class RocketListViewModel() : ViewModel() {
     }
 
     suspend fun getRocketData(): ArrayList<Rocket> {
-        lateinit var rocket: Rocket
+        val rockets = arrayListOf<Rocket>()
         val parsedData = parseJson ()
         for (i in 0 until parsedData.size) {
-            rocket = Rocket()
+            val rocket = Rocket()
             rocket.name = parsedData.string("name")[i]
             rocket.first_flight = parsedData.string("first_flight")[i]
-            rocket.flickr_images = URL(images[i])
+            var flickr_images = parsedData["flickr_images"][i] as JsonArray<String>
+            rocket.flickr_images = flickr_images[0]
             rockets.add(rocket)
         }
         return rockets
