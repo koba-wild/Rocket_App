@@ -14,7 +14,7 @@
         android:theme="@style/Theme.DragonX">
 
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".presentation.MainActivity"
             android:theme="@style/Theme.DragonX.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

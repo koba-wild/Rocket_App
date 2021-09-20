@@ -1,4 +1,4 @@
-package com.example.dragonx.viewmodel
+package com.example.dragonx.presentation.RocketDetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,17 +9,24 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.dragonx.models.Rocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 import java.net.URL
 
 class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
     val rocketDetails = MutableLiveData<Rocket>()
+    private val completableJob = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + completableJob)
 
     fun getRockets() {
-        CoroutineScope(Dispatchers.IO).launch {
+        coroutineScope.launch {
             rocketDetails.postValue(parseJson(rocketNumber)!!)
         }
+    }
+
+    init {
+        getRockets()
     }
 
     suspend fun parseJson (rocketNumber:Int?): Rocket {
@@ -52,4 +59,8 @@ class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
         return rocket
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        completableJob.cancel()
+    }
 }
