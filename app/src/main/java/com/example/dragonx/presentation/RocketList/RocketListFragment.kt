@@ -15,14 +15,13 @@ import com.example.dragonx.*
 import com.example.dragonx.presentation.TopSpacingItemDecoration
 import com.example.dragonx.models.Rocket
 import com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment
-import com.example.dragonx.viewmodel.ApiStatus
 import com.example.dragonx.viewmodel.RocketListViewModel
 
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
     companion object {
-        private const val TAG = "KobaLOG"
+        private const val TAG = "RocketList Logs"
             fun newInstance(): RocketListFragment {
                 val fragment = RocketListFragment()
                 return fragment
@@ -34,7 +33,6 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view  =  inflater.inflate(R.layout.fragment_rocket_list, container, false)
-        Log.d(TAG, "onCreateView RocketListFragment")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val errorPicture = view.findViewById<ImageView>(R.id.imageForError)
 
@@ -42,11 +40,13 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)
         val viewModel = ViewModelProvider(this).get(RocketListViewModel::class.java)
-
+        val adapter = RocketRecyclerAdapter(this)
+        recyclerView.adapter = adapter
         viewModel.rocketsData.observe(viewLifecycleOwner, {
-            recyclerView.adapter = RocketRecyclerAdapter(it, this)
+            adapter.submitList(it)
         })
-        viewModel.status.observe(viewLifecycleOwner, {
+
+        viewModel.rocketListParser.status.observe(viewLifecycleOwner, {
             when (it) {
                 ApiStatus.ERROR -> {
                     errorPicture.visibility = View.VISIBLE
@@ -68,35 +68,5 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_rocket_list, RocketDetailsFragment.newInstance(position))
         transaction?.addToBackStack(null)?.commit()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart RocketListFragment")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume RocketListFragment")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause RocketListFragment")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop RocketListFragment")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy RocketListFragment")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG, "onDetach RocketListFragment")
     }
 }

@@ -4,21 +4,22 @@ import com.beust.klaxon.JsonArray
 import com.denzcoskun.imageslider.models.SlideModel
 import java.net.URL
 
-class Rocket {
+data class Rocket (
     @JvmField
-    var name: String? = null
+    var name: String? = null,
+    var description: String? = null,
     @JvmField
-    var description: String? = null
+    var wikipedia: String? = null,
     @JvmField
-    var wikipedia: String? = null
+    var heightDiameter: Double? = null,
+    var heightFeet: Int? = null,
     @JvmField
-    var height: String? = null
+    var massKg: Int? = null,
+    var massLb: Int? = null,
     @JvmField
-    var mass: String? = null
+    var firstFlight: String? = null,
     @JvmField
-    var first_flight: String? = null
+    var flickrImages: String? = null,
     @JvmField
-    var flickr_images: String? = null
-    @JvmField
-    val imageList = ArrayList<SlideModel>()
-}
+    val imageList: ArrayList<SlideModel> = ArrayList<SlideModel>()
+)
