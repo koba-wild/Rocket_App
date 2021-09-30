@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.dragonx.R
 import kotlinx.android.synthetic.main.fragment_rocket_details.view.*
-import com.example.dragonx.models.Rocket
+import com.example.dragonx.NetworkService.Rocket
 import com.example.dragonx.util.Constants.Companion.ROCKET_NUMBER
+import com.example.dragonx.util.RocketModel
 import com.example.dragonx.viewmodel.ViewModelFactory
 
 class RocketDetailsFragment : Fragment() {
@@ -34,7 +35,7 @@ class RocketDetailsFragment : Fragment() {
         if (rocketNumber != null) {
             val viewModelFactory = ViewModelFactory(rocketNumber)
             val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
-            viewModel.rocketDetails.observe(viewLifecycleOwner, {it:Rocket ->
+            viewModel.rocketDetails.observe(viewLifecycleOwner, {it: RocketModel ->
                 view.rocketName.text = it.name
                 view.description.text = it.description
                 view.wikiLink.text = it.wikipedia

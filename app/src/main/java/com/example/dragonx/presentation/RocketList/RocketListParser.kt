@@ -2,12 +2,13 @@ package com.example.dragonx.presentation.RocketList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
-import com.example.dragonx.models.Rocket
-import com.example.dragonx.util.Constants
-import java.net.URL
+import com.example.dragonx.NetworkService.NetworkService
+import com.example.dragonx.NetworkService.Rocket
+import com.example.dragonx.NetworkService.Rockets
+import com.example.dragonx.util.RocketModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 enum class ApiStatus {LOADING, ERROR, DONE}
 
@@ -16,34 +17,33 @@ class RocketListParser {
     val status: LiveData<ApiStatus>
         get() = _status
 
-    fun parseJson () : JsonArray<JsonObject>? {
-        val parser: Parser = Parser()
+    fun parseJson() : List<Rocket>? {
         try {
             _status.postValue(ApiStatus.LOADING)
-            val result = URL(Constants.URL_STRING).readText()
-            val stringBuilder: StringBuilder = StringBuilder(result)
-            val myParsedObject = parser.parse(stringBuilder) as JsonArray<JsonObject>
+            val rocketsList: List<Rocket> = NetworkService.getInstance()
+                .buildApiService()
+                .getRockets()
             _status.postValue(ApiStatus.DONE)
-            return myParsedObject
-        } catch (e: Exception){
+            return rocketsList
+        } catch (e: Exception) {
             _status.postValue(ApiStatus.ERROR)
             return null
         }
     }
 
-    fun getRocketData(): ArrayList<Rocket> {
-        val rockets = arrayListOf<Rocket>()
+    fun getRocketData() : ArrayList<RocketModel> {
+        val listOfRockets = arrayListOf<RocketModel>()
         val parsedData = parseJson()
         if (parsedData != null) {
             for (i in 0 until parsedData.size) {
-                val rocket = Rocket()
-                rocket.name = parsedData.string("name")[i]
-                rocket.firstFlight = parsedData.string("first_flight")[i]
-                var flickr_images = parsedData["flickr_images"][i] as JsonArray<String>
-                rocket.flickrImages = flickr_images[0]
-                rockets.add(rocket)
+                val rocket = RocketModel()
+                rocket.name = parsedData[i].name
+                rocket.firstFlight = parsedData[i].firstFlight
+                val images = parsedData[i].flickrImages as ArrayList<String>
+                rocket.flickrImages = images[0]
+                listOfRockets.add(rocket)
             }
         }
-        return rockets
+        return listOfRockets
     }
 }
