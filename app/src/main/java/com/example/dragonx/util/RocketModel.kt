@@ -1,10 +1,8 @@
-package com.example.dragonx.models
+package com.example.dragonx.util
 
-import com.beust.klaxon.JsonArray
 import com.denzcoskun.imageslider.models.SlideModel
-import java.net.URL
 
-data class Rocket (
+data class RocketModel (
     @JvmField
     var name: String? = null,
     var description: String? = null,

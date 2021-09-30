@@ -1,34 +1,35 @@
 package com.example.dragonx.presentation.RocketDetails
 
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
 import com.denzcoskun.imageslider.models.SlideModel
-import com.example.dragonx.models.Rocket
-import java.net.URL
+import com.example.dragonx.NetworkService.NetworkService
+import com.example.dragonx.NetworkService.Rocket
+import com.example.dragonx.util.RocketModel
 
 class RocketDetailsParser {
-    fun parseJson (rocketNumber:Int?): Rocket {
-        lateinit var jsonArray: JsonArray<JsonObject>
-        val result = URL("https://api.spacexdata.com/v4/dragons").readText()
-        val parser: Parser = Parser()
-        val stringBuilder: StringBuilder = StringBuilder(result)
-        jsonArray = parser.parse(stringBuilder) as JsonArray<JsonObject>
-        val rocket = Rocket()
-        rocket.name = jsonArray.string("name")[rocketNumber!!]
-        rocket.description = jsonArray.string("description")[rocketNumber]
-        rocket.wikipedia = jsonArray.string("wikipedia")[rocketNumber]
+    fun parseJson (rocketNumber:Int?): RocketModel {
+        val rocketsList: List<Rocket> = NetworkService.getInstance()
+            .buildApiService()
+            .getRockets()
+        val rocket = RocketModel()
+        rocket.name = rocketsList[rocketNumber!!].name
+        rocket.description = rocketsList[rocketNumber].description
+        rocket.wikipedia = rocketsList[rocketNumber].wikipedia
         rocket.heightDiameter =
-            jsonArray.obj("diameter")[rocketNumber]?.double("meters")
-        rocket.heightFeet =  jsonArray.obj("diameter")[rocketNumber]?.int("feet")
+            rocketsList[rocketNumber].diameter.meters
+        rocket.heightFeet = rocketsList[rocketNumber].diameter.feet
         rocket.massKg =
-            jsonArray.int("dry_mass_kg")[rocketNumber]
-        rocket.massLb = jsonArray.int("dry_mass_lb")[rocketNumber]
-        rocket.firstFlight = jsonArray.string("first_flight")[rocketNumber]
-        val flickr_images = jsonArray.get("flickr_images")[rocketNumber] as JsonArray<String>
-        var arr = arrayOfNulls<String>(flickr_images.size)
-        for (i in 0 until flickr_images.size) {
-            arr[i] = flickr_images[i]
+            rocketsList[rocketNumber].massKg
+        rocket.massLb = rocketsList[rocketNumber].massLb
+        rocket.firstFlight = rocketsList[rocketNumber].firstFlight
+        val flickrImages = rocketsList[rocketNumber].flickrImages as ArrayList<String>
+        val imgArray = arrayOfNulls<String>(flickrImages.size)
+        for (i in 0 until flickrImages.size) {
+            imgArray[i] = flickrImages[i]
+        }
+
+        var arr = arrayOfNulls<String>(flickrImages.size)
+        for (i in 0 until flickrImages.size) {
+            arr[i] = flickrImages[i]
         }
         arr.forEach {
             rocket.imageList.add(
