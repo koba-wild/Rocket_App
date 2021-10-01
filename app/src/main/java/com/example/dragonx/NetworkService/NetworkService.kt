@@ -3,7 +3,7 @@ package com.example.dragonx.NetworkService
 import com.example.dragonx.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkService {
     companion object {
@@ -16,7 +16,7 @@ class NetworkService {
     fun buildRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create().asLenient())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 

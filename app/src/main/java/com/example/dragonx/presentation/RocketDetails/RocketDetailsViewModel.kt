@@ -14,7 +14,7 @@ class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
     fun getRockets() {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                rocketDetails.postValue(rocketDetailsParser.parseJson(rocketNumber)!!)
+                rocketDetails.postValue(rocketDetailsParser.parseJson(rocketNumber)?:null)
             }
         }
     }

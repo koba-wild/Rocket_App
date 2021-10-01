@@ -17,21 +17,21 @@ class RocketListParser {
     val status: LiveData<ApiStatus>
         get() = _status
 
-    fun parseJson() : List<Rocket>? {
+    private suspend fun parseJson() : List<Rocket>? {
         try {
-            _status.postValue(ApiStatus.LOADING)
-            val rocketsList: List<Rocket> = NetworkService.getInstance()
-                .buildApiService()
-                .getRockets()
-            _status.postValue(ApiStatus.DONE)
-            return rocketsList
+        _status.postValue(ApiStatus.LOADING)
+        val rocketsList: List<Rocket> = NetworkService.getInstance()
+            .buildApiService()
+            .getRockets()
+        _status.postValue(ApiStatus.DONE)
+        return rocketsList
         } catch (e: Exception) {
             _status.postValue(ApiStatus.ERROR)
             return null
         }
     }
 
-    fun getRocketData() : ArrayList<RocketModel> {
+    suspend fun getRocketData() : ArrayList<RocketModel> {
         val listOfRockets = arrayListOf<RocketModel>()
         val parsedData = parseJson()
         if (parsedData != null) {

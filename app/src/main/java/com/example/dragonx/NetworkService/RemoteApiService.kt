@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface RemoteApiService {
     @GET("v4/dragons")
-    fun getRockets(): List<Rocket>
+    suspend fun getRockets(): List<Rocket>
 }

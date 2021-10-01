@@ -6,7 +6,7 @@ import com.example.dragonx.NetworkService.Rocket
 import com.example.dragonx.util.RocketModel
 
 class RocketDetailsParser {
-    fun parseJson (rocketNumber:Int?): RocketModel {
+    suspend fun parseJson (rocketNumber:Int?): RocketModel {
         val rocketsList: List<Rocket> = NetworkService.getInstance()
             .buildApiService()
             .getRockets()
