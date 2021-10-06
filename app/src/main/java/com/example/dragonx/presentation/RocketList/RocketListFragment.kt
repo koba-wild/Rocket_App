@@ -6,15 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
+import com.example.dragonx.presentation.MainActivity
 import com.example.dragonx.presentation.TopSpacingItemDecoration
-import com.example.dragonx.NetworkService.Rocket
 import com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment
-import com.example.dragonx.util.RocketModel
+import com.example.dragonx.util.ApiStatus
+import com.example.dragonx.util.RocketDetails
+import com.example.dragonx.util.RocketTitle
 import com.example.dragonx.viewmodel.RocketListViewModel
 
 
@@ -58,13 +61,14 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
                 else -> {
                     errorPicture.visibility = View.VISIBLE
                     errorPicture.setImageResource(R.drawable.loading_anim)
+                    Toast.makeText(context, "Data`s failure occurred:(", Toast.LENGTH_SHORT).show()
                 }
             }
         })
         return view
     }
 
-    override fun onRocketClick(rocket: RocketModel, position : Int) {
+    override fun onRocketClick(rocket: RocketTitle, position : Int) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_rocket_list, RocketDetailsFragment.newInstance(position))
         transaction?.addToBackStack(null)?.commit()

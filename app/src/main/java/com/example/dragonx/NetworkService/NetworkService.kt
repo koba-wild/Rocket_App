@@ -5,13 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NetworkService {
-    companion object {
-        fun getInstance(): NetworkService {
-            val instance = NetworkService()
-            return instance
-        }
-    }
+object RetrofitInstance {
 
     fun buildRetrofit(): Retrofit {
         return Retrofit.Builder()

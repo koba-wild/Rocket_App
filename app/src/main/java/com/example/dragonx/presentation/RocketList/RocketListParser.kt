@@ -1,16 +1,13 @@
 package com.example.dragonx.presentation.RocketList
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.dragonx.NetworkService.NetworkService
+import com.example.dragonx.NetworkService.RetrofitInstance
 import com.example.dragonx.NetworkService.Rocket
-import com.example.dragonx.NetworkService.Rockets
-import com.example.dragonx.util.RocketModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.dragonx.util.ApiStatus
+import com.example.dragonx.util.RocketTitle
 
-enum class ApiStatus {LOADING, ERROR, DONE}
 
 class RocketListParser {
     private val _status = MutableLiveData<ApiStatus>()
@@ -20,7 +17,7 @@ class RocketListParser {
     private suspend fun parseJson() : List<Rocket>? {
         try {
         _status.postValue(ApiStatus.LOADING)
-        val rocketsList: List<Rocket> = NetworkService.getInstance()
+        val rocketsList: List<Rocket> = RetrofitInstance
             .buildApiService()
             .getRockets()
         _status.postValue(ApiStatus.DONE)
@@ -31,16 +28,17 @@ class RocketListParser {
         }
     }
 
-    suspend fun getRocketData() : ArrayList<RocketModel> {
-        val listOfRockets = arrayListOf<RocketModel>()
+    suspend fun getRocketData() : ArrayList<RocketTitle> {
+        val listOfRockets = arrayListOf<RocketTitle>()
         val parsedData = parseJson()
         if (parsedData != null) {
             for (i in 0 until parsedData.size) {
-                val rocket = RocketModel()
-                rocket.name = parsedData[i].name
-                rocket.firstFlight = parsedData[i].firstFlight
+                val name = parsedData[i].name
+                val firstFlight = parsedData[i].firstFlight
                 val images = parsedData[i].flickrImages as ArrayList<String>
-                rocket.flickrImages = images[0]
+                var flickrImages = images[0]
+                val rocket = RocketTitle(name,
+                    firstFlight, flickrImages)
                 listOfRockets.add(rocket)
             }
         }
