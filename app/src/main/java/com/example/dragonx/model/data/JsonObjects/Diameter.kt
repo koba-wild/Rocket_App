@@ -1,4 +1,4 @@
-package com.example.dragonx.NetworkService.POJO
+package com.example.dragonx.model.data.JsonObjects
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,15 +1,17 @@
 package com.example.dragonx.viewmodel
 
 import androidx.lifecycle.*
-import com.example.dragonx.presentation.RocketDetails.RocketDetailsViewModel
-import com.example.dragonx.presentation.RocketList.RocketListParser
-import com.example.dragonx.util.RocketDetails
-import com.example.dragonx.util.RocketTitle
+import com.example.dragonx.domain.GetRocketList
+import com.example.dragonx.model.data.RocketList
+import com.example.dragonx.model.util.ApiStatus
 import kotlinx.coroutines.*
 
 class RocketListViewModel : ViewModel() {
-    var rocketsData = MutableLiveData<List<RocketTitle>>()
-    val rocketListParser = RocketListParser()
+    private val _status = MutableLiveData<ApiStatus>()
+    val status: LiveData<ApiStatus>
+        get() = _status
+    var rocketsData = MutableLiveData<List<RocketList>>()
+    val rocketListParser = GetRocketList()
 
     init {
         getRockets()
@@ -18,7 +20,13 @@ class RocketListViewModel : ViewModel() {
     fun getRockets() {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                rocketsData.postValue(rocketListParser.getRocketData() ?:null)
+                try {
+                    _status.postValue(ApiStatus.LOADING)
+                    rocketsData.postValue(rocketListParser.getRocketData() ?:null)
+                    _status.postValue(ApiStatus.DONE)
+                } catch (e: IllegalAccessError) {
+                    _status.postValue(ApiStatus.ERROR)
+                }
             }
         }
     }

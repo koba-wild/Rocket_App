@@ -1,6 +1,6 @@
 package com.example.dragonx.NetworkService
 
-import com.example.dragonx.NetworkService.POJO.Diameter
+import com.example.dragonx.model.data.JsonObjects.Diameter
 import com.google.gson.annotations.SerializedName
 data class Rockets (val rockets: List<Rocket>)
 data class Rocket (

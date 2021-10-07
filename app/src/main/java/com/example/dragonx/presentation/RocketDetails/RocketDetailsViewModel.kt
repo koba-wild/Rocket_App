@@ -3,12 +3,13 @@ package com.example.dragonx.presentation.RocketDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dragonx.util.RocketDetails
+import com.example.dragonx.domain.GetRocketDetails
+import com.example.dragonx.model.data.RocketDetails
 import kotlinx.coroutines.*
 
 class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
     val rocketDetails = MutableLiveData<RocketDetails>()
-    val rocketDetailsParser = RocketDetailsParser()
+    val rocketDetailsParser = GetRocketDetails()
 
     init {
         getRockets()

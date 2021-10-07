@@ -1,6 +1,6 @@
-package com.example.dragonx.NetworkService
+package com.example.dragonx.domain
 
-import retrofit2.Call
+import com.example.dragonx.NetworkService.Rocket
 import retrofit2.http.GET
 
 interface RemoteApiService {

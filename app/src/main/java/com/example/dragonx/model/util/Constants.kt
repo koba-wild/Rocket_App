@@ -1,4 +1,4 @@
-package com.example.dragonx.util
+package com.example.dragonx.model.util
 
 class Constants {
 

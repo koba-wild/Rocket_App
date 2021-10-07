@@ -10,8 +10,8 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.dragonx.R
 import com.example.dragonx.presentation.RocketList.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_rocket_details.view.*
-import com.example.dragonx.util.Constants.Companion.ROCKET_NUMBER
-import com.example.dragonx.util.RocketDetails
+import com.example.dragonx.model.util.Constants.Companion.ROCKET_NUMBER
+import com.example.dragonx.model.data.RocketDetails
 
 
 class RocketDetailsFragment : Fragment() {

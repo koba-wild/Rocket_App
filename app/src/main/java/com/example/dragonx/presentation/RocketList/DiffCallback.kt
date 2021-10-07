@@ -1,15 +1,14 @@
 package com.example.dragonx.presentation.RocketList
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.dragonx.util.RocketDetails
-import com.example.dragonx.util.RocketTitle
+import com.example.dragonx.model.data.RocketList
 
-class DiffCallback : DiffUtil.ItemCallback<RocketTitle>() {
-    override fun areItemsTheSame(oldItem: RocketTitle, newItem: RocketTitle): Boolean {
+class DiffCallback : DiffUtil.ItemCallback<RocketList>() {
+    override fun areItemsTheSame(oldItem: RocketList, newItem: RocketList): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: RocketTitle, newItem: RocketTitle): Boolean {
+    override fun areContentsTheSame(oldItem: RocketList, newItem: RocketList): Boolean {
         return oldItem == newItem
     }
 }

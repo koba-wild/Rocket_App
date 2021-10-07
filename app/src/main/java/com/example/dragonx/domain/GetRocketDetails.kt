@@ -1,14 +1,13 @@
-package com.example.dragonx.presentation.RocketDetails
+package com.example.dragonx.domain
 
 import com.denzcoskun.imageslider.models.SlideModel
-import com.example.dragonx.NetworkService.RetrofitInstance
 import com.example.dragonx.NetworkService.Rocket
-import com.example.dragonx.util.RocketDetails
+import com.example.dragonx.model.data.RocketDetails
 
-class RocketDetailsParser {
+class GetRocketDetails {
     suspend fun parseJson (rocketNumber:Int?): RocketDetails {
         val imageList = ArrayList<SlideModel>()
-        val rocketsList: List<Rocket> = RetrofitInstance
+        val rocketsList: List<Rocket> = Retrofit
             .buildApiService()
             .getRockets()
         val name = rocketsList[rocketNumber!!].name

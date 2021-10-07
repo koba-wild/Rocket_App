@@ -1,7 +1,7 @@
-package com.example.dragonx.util
+package com.example.dragonx.model.data
 
 
-data class RocketTitle (
+data class RocketList (
     var name: String?,
     var firstFlight: String?,
     var flickrImages: String)
