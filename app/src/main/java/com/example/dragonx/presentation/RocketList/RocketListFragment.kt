@@ -53,15 +53,14 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
                 ApiStatus.ERROR -> {
                     errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.ic_connection_error)
-                    Toast.makeText(context, "Data`s failure occurred:(", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Exception occurred: ${viewModel.myException}", Toast.LENGTH_LONG).show()
                 }
                 ApiStatus.DONE -> {
                     errorPicture.visibility = View.GONE
                 }
                 else -> {
-                    errorPicture.visibility = View.VISIBLE
+                    errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.loading_anim)
-
                 }
             }
         })

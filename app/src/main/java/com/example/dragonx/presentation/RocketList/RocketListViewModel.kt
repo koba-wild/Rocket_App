@@ -11,7 +11,8 @@ class RocketListViewModel : ViewModel() {
     val status: LiveData<ApiStatus>
         get() = _status
     var rocketsData = MutableLiveData<List<RocketList>>()
-    val rocketListParser = GetRocketList()
+    private val rocketListParser = GetRocketList()
+    lateinit var myException: Exception
 
     init {
         getRockets()
@@ -24,8 +25,9 @@ class RocketListViewModel : ViewModel() {
                     _status.postValue(ApiStatus.LOADING)
                     rocketsData.postValue(rocketListParser.getRocketData() ?:null)
                     _status.postValue(ApiStatus.DONE)
-                } catch (e: IllegalAccessError) {
+                } catch (e: Exception) {
                     _status.postValue(ApiStatus.ERROR)
+                    myException = e
                 }
             }
         }
