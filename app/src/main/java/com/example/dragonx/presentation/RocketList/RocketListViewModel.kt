@@ -1,29 +1,37 @@
 package com.example.dragonx.viewmodel
 
 import androidx.lifecycle.*
-import com.example.dragonx.presentation.RocketDetails.RocketDetailsViewModel
-import com.example.dragonx.models.Rocket
-import com.example.dragonx.presentation.RocketList.RocketListParser
+import com.example.dragonx.domain.GetRocketList
+import com.example.dragonx.model.data.RocketList
+import com.example.dragonx.model.util.ApiStatus
 import kotlinx.coroutines.*
 
 class RocketListViewModel : ViewModel() {
-    var rocketsData = MutableLiveData<List<Rocket>>()
-    val rocketListParser = RocketListParser()
-    fun getRockets() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                rocketsData.postValue(rocketListParser.getRocketData() ?:null)
-            }
-        }
-    }
+    private val _status = MutableLiveData<ApiStatus>()
+    val status: LiveData<ApiStatus>
+        get() = _status
+    var rocketsData = MutableLiveData<List<RocketList>>()
+    private val rocketListParser = GetRocketList()
+    lateinit var myException: Exception
 
     init {
         getRockets()
     }
+
+    fun getRockets() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                try {
+                    _status.postValue(ApiStatus.LOADING)
+                    rocketsData.postValue(rocketListParser.getRocketData() ?:null)
+                    _status.postValue(ApiStatus.DONE)
+                } catch (e: Exception) {
+                    _status.postValue(ApiStatus.ERROR)
+                    myException = e
+                }
+            }
+        }
+    }
+
 }
 
-class ViewModelFactory(private val rocketNumber: Int) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return RocketDetailsViewModel(rocketNumber) as T
-    }
-}

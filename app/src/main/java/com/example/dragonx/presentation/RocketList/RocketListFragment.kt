@@ -1,20 +1,22 @@
 package com.example.dragonx.presentation.RocketList
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.view.isVisible
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
 import com.example.dragonx.presentation.TopSpacingItemDecoration
-import com.example.dragonx.models.Rocket
 import com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment
+import com.example.dragonx.model.util.ApiStatus
+import com.example.dragonx.model.data.RocketList
 import com.example.dragonx.viewmodel.RocketListViewModel
 
 
@@ -46,17 +48,18 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
             adapter.submitList(it)
         })
 
-        viewModel.rocketListParser.status.observe(viewLifecycleOwner, {
+        viewModel.status.observe(viewLifecycleOwner, {
             when (it) {
                 ApiStatus.ERROR -> {
-                    errorPicture.visibility = View.VISIBLE
+                    errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.ic_connection_error)
+                    Toast.makeText(context, "Exception occurred: ${viewModel.myException}", Toast.LENGTH_LONG).show()
                 }
                 ApiStatus.DONE -> {
                     errorPicture.visibility = View.GONE
                 }
                 else -> {
-                    errorPicture.visibility = View.VISIBLE
+                    errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.loading_anim)
                 }
             }
@@ -64,7 +67,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         return view
     }
 
-    override fun onRocketClick(rocket: Rocket, position : Int) {
+    override fun onRocketClick(rocket: RocketList, position : Int) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_rocket_list, RocketDetailsFragment.newInstance(position))
         transaction?.addToBackStack(null)?.commit()

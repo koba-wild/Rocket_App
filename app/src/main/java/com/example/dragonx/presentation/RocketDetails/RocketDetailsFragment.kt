@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.dragonx.R
+import com.example.dragonx.presentation.RocketList.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_rocket_details.view.*
-import com.example.dragonx.models.Rocket
-import com.example.dragonx.util.Constants.Companion.ROCKET_NUMBER
-import com.example.dragonx.viewmodel.ViewModelFactory
+import com.example.dragonx.model.util.Constants.Companion.ROCKET_NUMBER
+import com.example.dragonx.model.data.RocketDetails
+
 
 class RocketDetailsFragment : Fragment() {
 
@@ -34,14 +35,14 @@ class RocketDetailsFragment : Fragment() {
         if (rocketNumber != null) {
             val viewModelFactory = ViewModelFactory(rocketNumber)
             val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
-            viewModel.rocketDetails.observe(viewLifecycleOwner, {it:Rocket ->
+            viewModel.rocketDetails.observe(viewLifecycleOwner, {it: RocketDetails ->
                 view.rocketName.text = it.name
                 view.description.text = it.description
                 view.wikiLink.text = it.wikipedia
                 view.heightRocket.text = getString(R.string.rocket_diameter, it.heightDiameter, it.heightFeet )
                 view.mass.text = getString(R.string.rocket_mass, it.massKg, it.massLb)
                 view.year.text = it.firstFlight
-                view.imageSlider.setImageList(it.imageList, ScaleTypes.FIT)
+                view.imageSlider.setImageList(it.flickrImages, ScaleTypes.FIT)
         })
         }
         return view
