@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/rocketListFragment">
+
+    <fragment
+        android:id="@+id/rocketListFragment"
+        android:name="com.example.dragonx.presentation.RocketList.RocketListFragment"
+        android:label="DragonX rockets"
+        tools:layout="@layout/fragment_rocket_list" >
+        <action
+            android:id="@+id/action_rocketListFragment_to_rocketDetailsFragment"
+            app:destination="@id/rocketDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rocketDetailsFragment"
+        android:name="com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment"
+        android:label="Rocket details"
+        tools:layout="@layout/fragment_rocket_details" >
+        <argument
+            android:name="rocketNumber"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>

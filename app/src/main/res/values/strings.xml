@@ -12,6 +12,8 @@
     <string name="to_show_error">To show ERROR</string>
     <string name="rocket_diameter">Diameter: %.1f, feet: %d</string>
     <string name="rocket_mass">Dry mass: %dkg (%dlb)</string>
+    <string name="DragonX_Rockets">DragonX Rockets</string>
+    <string name="Details">Details</string>
 
 
 </resources>

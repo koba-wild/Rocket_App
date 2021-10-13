@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
 import com.example.dragonx.presentation.TopSpacingItemDecoration
-import com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment
 import com.example.dragonx.model.util.ApiStatus
 import com.example.dragonx.model.data.RocketList
 import com.example.dragonx.viewmodel.RocketListViewModel
@@ -30,6 +30,10 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
             }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,8 +72,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
     }
 
     override fun onRocketClick(rocket: RocketList, position : Int) {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.fragment_rocket_list, RocketDetailsFragment.newInstance(position))
-        transaction?.addToBackStack(null)?.commit()
+        val action = RocketListFragmentDirections.actionRocketListFragmentToRocketDetailsFragment(position)
+        view?.findNavController()?.navigate(action)
     }
 }
