@@ -45,16 +45,15 @@ class RocketDetailsFragment : Fragment() {
             view.mass.text = getString(R.string.rocket_mass, it.massKg, it.massLb)
             view.year.text = it.firstFlight
             adapter.submitList(it.flickrImages)
-
             var dots: Array<TextView?> = arrayOfNulls(it.flickrImages.size)
             var onImageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrollStateChanged(state: Int) {
+                override fun onPageSelected(state: Int) {
                     super.onPageScrollStateChanged(state)
                     addDotView(state, dots, view, it.flickrImages.size)
                 }
             }
             view.viewPager.registerOnPageChangeCallback(onImageChangeCallback)
-})
+        })
         return view
     }
 
