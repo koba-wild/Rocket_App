@@ -20,24 +20,16 @@ class GetRocketDetails {
             rocketsList[rocketNumber].massKg
         val massLb = rocketsList[rocketNumber].massLb
         val firstFlight = rocketsList[rocketNumber].firstFlight
-        val flickrImages = rocketsList[rocketNumber].flickrImages as ArrayList<String>
-        val imgArray = arrayOfNulls<String>(flickrImages.size)
-        for (i in 0 until flickrImages.size) {
-            imgArray[i] = flickrImages[i]
-        }
+        val flickrImages = rocketsList[rocketNumber].flickrImages as List<String>
 
-        val arr = arrayOfNulls<String>(flickrImages.size)
-        for (i in 0 until flickrImages.size) {
-            arr[i] = flickrImages[i]
-        }
-        arr.forEach {
-            imageList.add(
-                SlideModel(it)
-            )
-        }
+//        val arr = arrayOfNulls<String>(flickrImages.size)
+//        for (i in 0 until flickrImages.size) {
+//            arr[i] = flickrImages[i]
+//        }
+
         val rocket = RocketDetails(
             name, description, wikipedia,
-            heightDiameter, heightFeet, massKg, massLb, firstFlight, imageList)
+            heightDiameter, heightFeet, massKg, massLb, firstFlight, flickrImages)
         return rocket
     }
 }

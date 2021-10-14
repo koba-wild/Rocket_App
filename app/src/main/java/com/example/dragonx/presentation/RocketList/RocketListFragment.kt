@@ -22,14 +22,6 @@ import com.example.dragonx.viewmodel.RocketListViewModel
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
-    companion object {
-        private const val TAG = "RocketList Logs"
-            fun newInstance(): RocketListFragment {
-                val fragment = RocketListFragment()
-                return fragment
-            }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

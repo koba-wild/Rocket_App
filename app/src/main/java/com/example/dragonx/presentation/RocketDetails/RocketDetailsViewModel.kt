@@ -10,7 +10,7 @@ import kotlinx.coroutines.*
 
 class RocketDetailsViewModel(private val rocketNumber: Int?) : ViewModel() {
     val rocketDetails = MutableLiveData<RocketDetails>()
-    val rocketDetailsParser = GetRocketDetails()
+    private val rocketDetailsParser = GetRocketDetails()
 
     init {
         getRockets()

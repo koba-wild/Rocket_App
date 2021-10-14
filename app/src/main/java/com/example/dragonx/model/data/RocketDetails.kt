@@ -11,5 +11,5 @@ data class RocketDetails(
     var massKg: Int?,
     var massLb: Int?,
     var firstFlight: String?,
-    var flickrImages: List<SlideModel>,
+    var flickrImages: List<String>
 )
