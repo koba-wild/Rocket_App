@@ -1,12 +1,11 @@
 package com.example.dragonx.presentation.RocketDetails
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -35,8 +34,11 @@ class RocketDetailsFragment : Fragment() {
         val rocketNumber = args.rocketNumber
         val viewModelFactory = ViewModelFactory(rocketNumber)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
+
         val adapter = ImageSliderAdapter()
         imageSlider.adapter = adapter
+        setHasOptionsMenu(true)
+        val m: MenuItem = view.findViewById(R.id.share)
         viewModel.rocketDetails.observe(viewLifecycleOwner, {it: RocketDetails ->
             view.rocketName.text = it.name
             view.description.text = it.description
@@ -53,8 +55,38 @@ class RocketDetailsFragment : Fragment() {
                 }
             }
             view.viewPager.registerOnPageChangeCallback(onImageChangeCallback)
+            onOptionsItemSelected(m, it)
         })
+
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.share_rocket, menu)
+    }
+
+    fun onOptionsItemSelected(item: MenuItem, details: RocketDetails): Boolean {
+        when(item.itemId) {
+            R.id.share -> shareSuccess(details)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun getShareIntent(details: RocketDetails): Intent {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, getString(
+                R.string.your_rocket, details.name, details.description, details.wikipedia,
+                details.heightDiameter.toString(), details.heightFeet.toString(),
+                details.massKg.toString(), details.massLb.toString(), details.firstFlight))
+        }
+        return sendIntent
+    }
+
+    private fun shareSuccess(details: RocketDetails) {
+        startActivity(getShareIntent(details))
     }
 
     private fun addDotView(currentPage: Int, dots: Array<TextView?>, view: View, images: Int) {
