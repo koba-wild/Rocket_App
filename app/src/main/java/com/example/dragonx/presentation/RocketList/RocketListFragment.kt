@@ -22,10 +22,6 @@ import com.example.dragonx.viewmodel.RocketListViewModel
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +29,6 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val view  =  inflater.inflate(R.layout.fragment_rocket_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val errorPicture = view.findViewById<ImageView>(R.id.imageForError)
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)

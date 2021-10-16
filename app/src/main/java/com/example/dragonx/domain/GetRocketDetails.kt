@@ -1,12 +1,10 @@
 package com.example.dragonx.domain
 
-import com.denzcoskun.imageslider.models.SlideModel
 import com.example.dragonx.NetworkService.Rocket
 import com.example.dragonx.model.data.RocketDetails
 
 class GetRocketDetails {
     suspend fun parseJson (rocketNumber:Int?): RocketDetails {
-        val imageList = ArrayList<SlideModel>()
         val rocketsList: List<Rocket> = Retrofit
             .buildApiService()
             .getRockets()
@@ -22,10 +20,6 @@ class GetRocketDetails {
         val firstFlight = rocketsList[rocketNumber].firstFlight
         val flickrImages = rocketsList[rocketNumber].flickrImages as List<String>
 
-//        val arr = arrayOfNulls<String>(flickrImages.size)
-//        for (i in 0 until flickrImages.size) {
-//            arr[i] = flickrImages[i]
-//        }
 
         val rocket = RocketDetails(
             name, description, wikipedia,
