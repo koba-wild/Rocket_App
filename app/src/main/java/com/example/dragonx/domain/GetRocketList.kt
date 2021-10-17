@@ -1,6 +1,6 @@
 package com.example.dragonx.domain
-import com.example.dragonx.NetworkService.Rocket
-import com.example.dragonx.model.util.ApiStatus
+
+import com.example.dragonx.model.data.JsonObjects.Rocket
 import com.example.dragonx.model.data.RocketList
 
 

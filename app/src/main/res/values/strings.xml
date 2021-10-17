@@ -13,6 +13,14 @@
     <string name="rocket_mass">Dry mass: %dkg (%dlb)</string>
     <string name="DragonX_Rockets">DragonX Rockets</string>
     <string name="Details">Details</string>
-
+    <string name="share_a_rocket">Share a rocket</string>
+    <string name="your_rocket">Your rocket parameters:
+        \nname: %1$s,
+        \ndescription: %2$s,
+        \nwikipedia: %3$s,
+        \nHeight: %4$s,
+        \nMass: %5$s,
+        \nFirst flight: %6$s
+    </string>
 
 </resources>
