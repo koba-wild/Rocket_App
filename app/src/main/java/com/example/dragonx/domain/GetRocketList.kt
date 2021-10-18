@@ -5,21 +5,23 @@ import com.example.dragonx.model.data.RocketList
 
 
 class GetRocketList {
-
-    suspend fun getRocketData() : ArrayList<RocketList> {
-        val parsedData: List<Rocket> = Retrofit
-            .buildApiService()
-            .getRockets()
-        val listOfRockets = arrayListOf<RocketList>()
-        for (i in 0 until parsedData.size) {
-            val name = parsedData[i].name
-            val firstFlight = parsedData[i].firstFlight
-            val images = parsedData[i].flickrImages as ArrayList<String>
-            val flickrImages = images[0]
-            val rocket = RocketList(name,
-                firstFlight, flickrImages)
-            listOfRockets.add(rocket)
+    companion object {
+        fun getData(rockets: List<Rocket>?) : ArrayList<RocketList?> {
+            val listOfRockets = arrayListOf<RocketList?>()
+            if (rockets != null) {
+                for (i in 0 until rockets.size) {
+                    val name = rockets[i].name
+                    val firstFlight = rockets[i].firstFlight
+                    val images = rockets[i].flickrImages as ArrayList<String>
+                    val flickrImages = images[0]
+                    val rocket = RocketList(
+                        name,
+                        firstFlight, flickrImages
+                    )
+                    listOfRockets.add(rocket)
+                }
+            }
+            return listOfRockets
         }
-        return listOfRockets
     }
 }

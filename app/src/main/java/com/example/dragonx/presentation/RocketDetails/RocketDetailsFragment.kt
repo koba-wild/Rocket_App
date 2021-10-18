@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.dragonx.R
-import com.example.dragonx.presentation.RocketList.ViewModelFactory
-import com.example.dragonx.model.data.RocketDetails
 
 
 class RocketDetailsFragment : Fragment() {
@@ -21,36 +18,35 @@ class RocketDetailsFragment : Fragment() {
     private val heightRocket: TextView by lazy { requireView().findViewById(R.id.heightRocket) }
     private val mass: TextView by lazy { requireView().findViewById(R.id.mass) }
     private val year: TextView by lazy { requireView().findViewById(R.id.year) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_rocket_details, container, false)
+        return inflater.inflate(R.layout.fragment_rocket_details, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
-//        val rocketName = view.findViewById<TextView>(R.id.rocketName
+//        val rocketName = view.findViewById<TextView>(R.id.rocketName)
 //        val description = view.findViewById<TextView>(R.id.description)
 //        val wikiLink = view.findViewById<TextView>(R.id.wikiLink)
 //        val heightRocket = view.findViewById<TextView>(R.id.heightRocket)
 //        val mass = view.findViewById<TextView>(R.id.mass)
 //        val year = view.findViewById<TextView>(R.id.year)
-
         setHasOptionsMenu(true)
-
-        val rocketNumber = args.rocketNumber
-        val viewModelFactory = ViewModelFactory(rocketNumber)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
         val adapter = ImageSliderAdapter()
+        val rocketDetails = args.rocketDetails
+        rocketName.text = rocketDetails.name
+        description.text = rocketDetails.description
+        wikiLink.text = rocketDetails.wikipedia
+        heightRocket.text = getString(
+            R.string.rocket_diameter, rocketDetails.heightDiameter, rocketDetails.heightFeet)
+        mass.text = getString(R.string.rocket_mass, rocketDetails.massKg, rocketDetails.massLb)
+        year.text = rocketDetails.firstFlight
+        adapter.submitList(rocketDetails.flickrImages)
         imageSlider.adapter = adapter
-        viewModel.rocketDetails.observe(viewLifecycleOwner, {it: RocketDetails ->
-            rocketName.text = it.name
-            description.text = it.description
-            wikiLink.text = it.wikipedia
-            heightRocket.text = getString(R.string.rocket_diameter, it.heightDiameter, it.heightFeet )
-            mass.text = getString(R.string.rocket_mass, it.massKg, it.massLb)
-            year.text = it.firstFlight
-            adapter.submitList(it.flickrImages)
-        })
-        return view
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -80,5 +76,4 @@ class RocketDetailsFragment : Fragment() {
     private fun shareSuccess() {
         startActivity(getShareIntent())
     }
-
 }
