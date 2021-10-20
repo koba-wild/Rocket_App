@@ -19,17 +19,42 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
+            <FrameLayout
+                android:id="@+id/viewPagerFrame"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
-                app:layout_constraintBottom_toTopOf="@+id/rocketName"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.333">
+                app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.viewpager2.widget.ViewPager2>
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/rocketName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.333" />
+
+                <ImageButton
+                    android:id="@+id/before_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:src="@drawable/ic_action_before"
+                    android:contentDescription="@string/before_button" />
+
+                <ImageButton
+                    android:id="@+id/next_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:src="@drawable/ic_action_next"
+                    android:contentDescription="@string/next_button" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/rocketName"
@@ -37,13 +62,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:fontFamily="@font/merriweather_light"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
-                tools:layout_editor_absoluteY="286dp" />
+                app:layout_constraintTop_toBottomOf="@+id/viewPagerFrame" />
 
             <TextView
                 android:id="@+id/description"

@@ -47,7 +47,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
                 is StatusChecker.Error -> {
                     errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.ic_connection_error)
-                    Toast.makeText(context, "Exception occurred: ${it.myException}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.error_warning, it.myException), Toast.LENGTH_LONG).show()
                 }
                 is StatusChecker.Done -> {
                     adapter.submitList(GetRocketList.getData(it.data))

@@ -3,6 +3,7 @@ package com.example.dragonx.presentation.RocketDetails
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.navigation.fragment.navArgs
@@ -12,12 +13,15 @@ import com.example.dragonx.R
 
 class RocketDetailsFragment : Fragment() {
     private val args: RocketDetailsFragmentArgs by navArgs()
+
     private val rocketName: TextView by lazy { requireView().findViewById(R.id.rocketName) }
     private val description: TextView by lazy { requireView().findViewById(R.id.description) }
     private val wikiLink: TextView by lazy { requireView().findViewById(R.id.wikiLink) }
     private val heightRocket: TextView by lazy { requireView().findViewById(R.id.heightRocket) }
     private val mass: TextView by lazy { requireView().findViewById(R.id.mass) }
     private val year: TextView by lazy { requireView().findViewById(R.id.year) }
+    private val beforeButton: ImageButton by lazy { requireView().findViewById(R.id.before_button) }
+    private val nextButton: ImageButton by lazy { requireView().findViewById(R.id.next_button) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +51,35 @@ class RocketDetailsFragment : Fragment() {
         year.text = rocketDetails.firstFlight
         adapter.submitList(rocketDetails.flickrImages)
         imageSlider.adapter = adapter
+        beforeButton.visibility = View.GONE
+        beforeButton.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var position = imageSlider.currentItem
+                nextButton.visibility = View.VISIBLE
+                if (position > 0) {
+                    position--
+                    imageSlider.currentItem = position
+                    if (position == 0) {
+                        beforeButton.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
+        nextButton.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var position = imageSlider.currentItem
+                beforeButton.visibility = View.VISIBLE
+                if (position < imageSlider.adapter?.itemCount?.minus(1)!!) {
+                    position++
+                    imageSlider.currentItem = position
+                    if (position == imageSlider.adapter?.itemCount?.minus(1)!!) {
+                        nextButton.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

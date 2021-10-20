@@ -22,5 +22,8 @@
         \nMass: %5$s,
         \nFirst flight: %6$s
     </string>
+    <string name="error_warning">Exception occurred: %s</string>
+    <string name="before_button">before button</string>
+    <string name="next_button">next button</string>
 
 </resources>
