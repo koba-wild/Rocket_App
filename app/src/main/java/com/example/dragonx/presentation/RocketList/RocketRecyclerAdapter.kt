@@ -40,14 +40,11 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
         fun bind(rocket: RocketList, action: OnRocketClickListener) {
             rocketTitle.setText(rocket.name)
             rocketYear.setText(rocket.firstFlight)
-
-            val requestOption = RequestOptions()
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
             Glide.with(itemView.context)
                     .load(rocket.flickrImages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
                     .into(rocketsImage)
             itemView.setOnClickListener{
                 action.onRocketClick(rocket, adapterPosition)

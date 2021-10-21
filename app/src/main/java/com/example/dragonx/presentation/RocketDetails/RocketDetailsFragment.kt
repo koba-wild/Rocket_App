@@ -33,6 +33,7 @@ class RocketDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
+        imageSlider.isUserInputEnabled = false
 //        val rocketName = view.findViewById<TextView>(R.id.rocketName)
 //        val description = view.findViewById<TextView>(R.id.description)
 //        val wikiLink = view.findViewById<TextView>(R.id.wikiLink)
@@ -51,6 +52,7 @@ class RocketDetailsFragment : Fragment() {
         year.text = rocketDetails.firstFlight
         adapter.submitList(rocketDetails.flickrImages)
         imageSlider.adapter = adapter
+
         beforeButton.visibility = View.GONE
         beforeButton.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -79,7 +81,6 @@ class RocketDetailsFragment : Fragment() {
                 }
             }
         })
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
