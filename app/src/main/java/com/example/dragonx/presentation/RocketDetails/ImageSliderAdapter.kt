@@ -34,7 +34,7 @@ class ImageSliderAdapter : ListAdapter<String, RecyclerView.ViewHolder>(DiffCall
             Glide.with(itemView.context)
                 .load(image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading_anim)
                 .error(R.drawable.ic_launcher_background)
                 .into(sliderImageView)
         }

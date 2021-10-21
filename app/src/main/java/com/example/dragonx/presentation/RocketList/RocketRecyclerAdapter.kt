@@ -43,7 +43,7 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
             Glide.with(itemView.context)
                     .load(rocket.flickrImages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.loading_anim)
                     .error(R.drawable.ic_launcher_background)
                     .into(rocketsImage)
             itemView.setOnClickListener{
