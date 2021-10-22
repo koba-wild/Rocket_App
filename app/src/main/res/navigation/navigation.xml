@@ -24,7 +24,7 @@
         android:label="Rocket details"
         tools:layout="@layout/fragment_rocket_details" >
         <argument
-            android:name="rocketDetails"
-            app:argType="com.example.dragonx.model.data.RocketDetails" />
+            android:name="rocket"
+            app:argType="com.example.dragonx.model.data.JsonObjects.Rocket" />
     </fragment>
 </navigation>

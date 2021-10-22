@@ -42,15 +42,15 @@ class RocketDetailsFragment : Fragment() {
 //        val year = view.findViewById<TextView>(R.id.year)
         setHasOptionsMenu(true)
         val adapter = ImageSliderAdapter()
-        val rocketDetails = args.rocketDetails
-        rocketName.text = rocketDetails.name
-        description.text = rocketDetails.description
-        wikiLink.text = rocketDetails.wikipedia
+        val rocket = args.rocket
+        rocketName.text = rocket.name
+        description.text = rocket.description
+        wikiLink.text = rocket.wikipedia
         heightRocket.text = getString(
-            R.string.rocket_diameter, rocketDetails.heightDiameter, rocketDetails.heightFeet)
-        mass.text = getString(R.string.rocket_mass, rocketDetails.massKg, rocketDetails.massLb)
-        year.text = rocketDetails.firstFlight
-        adapter.submitList(rocketDetails.flickrImages)
+            R.string.rocket_diameter, rocket.diameter.meters, rocket.diameter.feet)
+        mass.text = getString(R.string.rocket_mass, rocket.massKg, rocket.massLb)
+        year.text = rocket.firstFlight
+        adapter.submitList(rocket.flickrImages)
         imageSlider.adapter = adapter
 
         beforeButton.visibility = View.GONE

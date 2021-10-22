@@ -1,7 +1,10 @@
 package com.example.dragonx.model.data.JsonObjects
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Rocket (
     @SerializedName("name") val name: String?,
     @SerializedName("description") val description: String?,
@@ -11,4 +14,4 @@ data class Rocket (
     @SerializedName("dry_mass_lb") val massLb: Int?,
     @SerializedName("first_flight") val firstFlight: String?,
     @SerializedName("flickr_images") val flickrImages: ArrayList<String>?
-)
+) : Parcelable
