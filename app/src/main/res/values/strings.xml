@@ -25,5 +25,6 @@
     <string name="error_warning">Exception occurred: %s</string>
     <string name="before_button">before button</string>
     <string name="next_button">next button</string>
+    <string name="rockets_picture">A rockets picture</string>
 
 </resources>
