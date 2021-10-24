@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Rocket (
+    @SerializedName("id") val id: String?,
     @SerializedName("name") val name: String?,
     @SerializedName("description") val description: String?,
     @SerializedName("wikipedia") val wikipedia: String?,

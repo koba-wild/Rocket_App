@@ -23,6 +23,7 @@ import com.example.dragonx.viewmodel.RocketListViewModel
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this).get(RocketListViewModel::class.java) }
+    private lateinit var adapter: RocketRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)
 
-        val adapter = RocketRecyclerAdapter(this)
+        adapter = RocketRecyclerAdapter(this)
         recyclerView.adapter = adapter
         errorPicture.isVisible = true
         errorPicture.setImageResource(R.drawable.loading_anim)

@@ -41,7 +41,7 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
             rocketYear.setText(rocket.firstFlight)
             Glide.with(itemView.context)
                     .load(rocket.flickrImages?.get(0))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.drawable.loading_anim)
                     .error(R.drawable.ic_launcher_background)
                     .into(rocketsImage)

@@ -14,6 +14,7 @@ class RocketListViewModel : ViewModel() {
     val rocketsData: LiveData<List<Rocket>>
         get() = _rocketsData
     private val rocketData = RocketRepository()
+    var position = 0
 
     init {
         getRockets()
