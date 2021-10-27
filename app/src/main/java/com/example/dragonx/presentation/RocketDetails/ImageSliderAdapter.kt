@@ -1,0 +1,43 @@
+package com.example.dragonx.presentation.RocketDetails
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.example.dragonx.R
+import com.google.android.material.imageview.ShapeableImageView
+
+class ImageSliderAdapter : ListAdapter<String, RecyclerView.ViewHolder>(ImageDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ImageViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.image_slider_item, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is ImageViewHolder -> {
+                val item = getItem(position) as String
+                holder.bind(item)
+            }
+        }
+    }
+
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val sliderImageView = itemView.findViewById<ShapeableImageView>(R.id.sliderImageView)
+        fun bind(image: String) {
+            val requestOption = RequestOptions()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+            Glide.with(itemView.context)
+                .load(image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(sliderImageView)
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.example.dragonx
+package com.example.dragonx.presentation
 
 import android.graphics.Rect
 import android.view.View

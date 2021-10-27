@@ -5,14 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.dragonx.models.Rocket
-import kotlinx.android.synthetic.main.rocket_list_layout.view.*
+import com.example.dragonx.presentation.RocketList.DiffCallback
+import com.example.dragonx.model.data.RocketList
 
-class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRocketClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
+) : ListAdapter<RocketList, RecyclerView.ViewHolder>(DiffCallback()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RocketViewHolder(
@@ -23,37 +26,36 @@ class RocketRecyclerAdapter(var rockets: List<Rocket>, var clickListener: OnRock
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is RocketViewHolder -> {
-                holder.bind(rockets[position], clickListener)
+                val item = getItem(position) as RocketList
+                holder.bind(item, clickListener)
             }
         }
     }
-    override fun getItemCount(): Int {
-        return rockets.size
-    }
+
     class RocketViewHolder(itemView: View)
         : RecyclerView.ViewHolder(itemView) {
-        val rocket_title: TextView = itemView.rocket_title
-        val rocket_year: TextView = itemView.rockets_year
-        val rockets_image: ImageView = itemView.rockets_image
-
-        fun bind(rocket: Rocket, action: OnRocketClickListener) {
-            rocket_title.setText(rocket.name)
-            rocket_year.setText(rocket.year)
+        val rocketTitle: TextView = itemView.findViewById(R.id.rocket_title)
+        val rocketYear: TextView = itemView.findViewById(R.id.rockets_year)
+        val rocketsImage: ImageView = itemView.findViewById(R.id.rockets_image)
+        fun bind(rocket: RocketList, action: OnRocketClickListener) {
+            rocketTitle.setText(rocket.name)
+            rocketYear.setText(rocket.firstFlight)
 
             val requestOption = RequestOptions()
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
             Glide.with(itemView.context)
-                    .load(rocket.image)
+                    .load(rocket.flickrImages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_launcher_background)
-                    .into(rockets_image)
+                    .into(rocketsImage)
             itemView.setOnClickListener{
                 action.onRocketClick(rocket, adapterPosition)
             }
         }
     }
 }
+
 interface OnRocketClickListener {
-    fun onRocketClick(rocket: Rocket, position: Int)
+    fun onRocketClick(rocket: RocketList, position: Int)
 }
