@@ -1,30 +1,28 @@
 <resources>
     <string name="app_name">DragonX</string>
-    <string name="Splash_screen_description">SpaceX logo</string>
     <string name="image_of_the_rocket">Image of the rocket</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_rocket_details">Rocket details</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="to_show_error">To show ERROR</string>
     <string name="rocket_diameter">Diameter: %.1f, feet: %d</string>
     <string name="rocket_mass">Dry mass: %dkg (%dlb)</string>
-    <string name="DragonX_Rockets">DragonX Rockets</string>
-    <string name="Details">Details</string>
-    <string name="shareButton">Share rocket</string>
+    <string name="dragonX_rockets">DragonX Rockets</string>
+    <string name="details">Details</string>
+    <string name="share_a_rocket">Share a rocket</string>
     <string name="your_rocket">Your rocket parameters:
         \nname: %1$s,
         \ndescription: %2$s,
         \nwikipedia: %3$s,
-        \nHeight diameter: %4$s,
-        \nHeight Feet: %5$s,
-        \nMass Kg: %6$s,
-        \nMass Lb: %7$s,
-        \nFirst flight: %8$s,
+        \nHeight: %4$s,
+        \nMass: %5$s,
+        \nFirst flight: %6$s
     </string>
-
-
+    <string name="error_warning">Exception occurred: %s</string>
+    <string name="before_button">before button</string>
+    <string name="next_button">next button</string>
+    <string name="rockets_picture">A rockets picture</string>
 </resources>

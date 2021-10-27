@@ -7,7 +7,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.dragonx.R
-import com.example.dragonx.presentation.RocketList.RocketListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
-        supportActionBar?.title = getString(R.string.Details)
     }
 
     override fun onSupportNavigateUp(): Boolean {

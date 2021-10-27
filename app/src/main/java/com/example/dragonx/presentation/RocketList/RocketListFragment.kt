@@ -14,18 +14,17 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
+import com.example.dragonx.model.data.JsonObjects.Rocket
 import com.example.dragonx.presentation.TopSpacingItemDecoration
-import com.example.dragonx.model.util.ApiStatus
-import com.example.dragonx.model.data.RocketList
+import com.example.dragonx.model.util.StatusChecker
 import com.example.dragonx.viewmodel.RocketListViewModel
 
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val viewModel by lazy { ViewModelProvider(this).get(RocketListViewModel::class.java) }
+    private lateinit var adapter: RocketRecyclerAdapter
 
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,38 +32,36 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val view  =  inflater.inflate(R.layout.fragment_rocket_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val errorPicture = view.findViewById<ImageView>(R.id.imageForError)
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)
-        val viewModel = ViewModelProvider(this).get(RocketListViewModel::class.java)
-        val adapter = RocketRecyclerAdapter(this)
+
+        adapter = RocketRecyclerAdapter(this)
         recyclerView.adapter = adapter
-        viewModel.rocketsData.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
+        errorPicture.isVisible = true
+        errorPicture.setImageResource(R.drawable.loading_anim)
 
         viewModel.status.observe(viewLifecycleOwner, {
             when (it) {
-                ApiStatus.ERROR -> {
+                is StatusChecker.Error -> {
                     errorPicture.isVisible = true
                     errorPicture.setImageResource(R.drawable.ic_connection_error)
-                    Toast.makeText(context, "Exception occurred: ${viewModel.myException}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.error_warning, it.myException), Toast.LENGTH_LONG).show()
                 }
-                ApiStatus.DONE -> {
+                is StatusChecker.Done -> {
+                    adapter.submitList(it.data)
                     errorPicture.visibility = View.GONE
-                }
-                else -> {
-                    errorPicture.isVisible = true
-                    errorPicture.setImageResource(R.drawable.loading_anim)
                 }
             }
         })
         return view
     }
 
-    override fun onRocketClick(rocket: RocketList, position : Int) {
-        val action = RocketListFragmentDirections.actionRocketListFragmentToRocketDetailsFragment(position)
-        view?.findNavController()?.navigate(action)
+    override fun onRocketClick(rocket: Rocket, position : Int) {
+        viewModel.rocketsData.observe(viewLifecycleOwner, {
+            val action = RocketListFragmentDirections
+                .actionRocketListFragmentToRocketDetailsFragment(it[position])
+            view?.findNavController()?.navigate(action)
+        })
     }
 }

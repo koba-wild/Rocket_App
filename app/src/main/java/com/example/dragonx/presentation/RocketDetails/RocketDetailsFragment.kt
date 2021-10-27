@@ -1,109 +1,129 @@
 package com.example.dragonx.presentation.RocketDetails
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.*
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.example.dragonx.R
-import com.example.dragonx.RocketRecyclerAdapter
-import com.example.dragonx.presentation.RocketList.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_rocket_details.view.*
-import com.example.dragonx.model.util.Constants.Companion.ROCKET_NUMBER
-import com.example.dragonx.model.data.RocketDetails
+import com.example.dragonx.model.util.Constants.Companion.IMAGE_SLIDER_POSITION
+import com.example.dragonx.viewmodel.RocketListViewModel
 
 
 class RocketDetailsFragment : Fragment() {
     private val args: RocketDetailsFragmentArgs by navArgs()
 
+    private val rocketName: TextView by lazy { requireView().findViewById(R.id.rocketName) }
+    private val description: TextView by lazy { requireView().findViewById(R.id.description) }
+    private val wikiLink: TextView by lazy { requireView().findViewById(R.id.wikiLink) }
+    private val heightRocket: TextView by lazy { requireView().findViewById(R.id.heightRocket) }
+    private val mass: TextView by lazy { requireView().findViewById(R.id.mass) }
+    private val year: TextView by lazy { requireView().findViewById(R.id.year) }
+    private val beforeButton: ImageButton by lazy { requireView().findViewById(R.id.before_button) }
+    private val nextButton: ImageButton by lazy { requireView().findViewById(R.id.next_button) }
+    private lateinit var adapter: ImageSliderAdapter
+    private var position = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        position = savedInstanceState?.getInt(IMAGE_SLIDER_POSITION) ?: 0
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_rocket_details, container, false)
-        val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
-        val rocketNumber = args.rocketNumber
-        val viewModelFactory = ViewModelFactory(rocketNumber)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(RocketDetailsViewModel::class.java)
+        return inflater.inflate(R.layout.fragment_rocket_details, container, false)
+    }
 
-        val adapter = ImageSliderAdapter()
-        imageSlider.adapter = adapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
+        imageSlider.isUserInputEnabled = false
+
         setHasOptionsMenu(true)
-        val m: MenuItem = view.findViewById(R.id.share)
-        viewModel.rocketDetails.observe(viewLifecycleOwner, {it: RocketDetails ->
-            view.rocketName.text = it.name
-            view.description.text = it.description
-            view.wikiLink.text = it.wikipedia
-            view.heightRocket.text = getString(R.string.rocket_diameter, it.heightDiameter, it.heightFeet )
-            view.mass.text = getString(R.string.rocket_mass, it.massKg, it.massLb)
-            view.year.text = it.firstFlight
-            adapter.submitList(it.flickrImages)
-            var dots: Array<TextView?> = arrayOfNulls(it.flickrImages.size)
-            var onImageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(state: Int) {
-                    super.onPageScrollStateChanged(state)
-                    addDotView(state, dots, view, it.flickrImages.size)
+        adapter = ImageSliderAdapter()
+        val rocket = args.rocket
+        rocketName.text = rocket.name
+        description.text = rocket.description
+        wikiLink.text = rocket.wikipedia
+        heightRocket.text = getString(
+            R.string.rocket_diameter, rocket.diameter.meters, rocket.diameter.feet)
+        mass.text = getString(R.string.rocket_mass, rocket.massKg, rocket.massLb)
+        year.text = rocket.firstFlight
+        adapter.submitList(rocket.flickrImages)
+        imageSlider.adapter = adapter
+
+        if (position == 0) {
+            beforeButton.visibility = View.GONE
+        } else if (position == imageSlider.adapter?.itemCount?.minus(1)!!) {
+            nextButton.visibility = View.GONE
+        }
+
+        beforeButton.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                position = imageSlider.currentItem
+                nextButton.visibility = View.VISIBLE
+                if (position > 0) {
+                    position--
+                    imageSlider.currentItem = position
+                    if (position == 0) {
+                        beforeButton.visibility = View.GONE
+                    }
                 }
             }
-            view.viewPager.registerOnPageChangeCallback(onImageChangeCallback)
-            onOptionsItemSelected(m, it)
         })
 
-        return view
+        nextButton.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                position = imageSlider.currentItem
+                beforeButton.visibility = View.VISIBLE
+                if (position < imageSlider.adapter?.itemCount?.minus(1)!!) {
+                    position++
+                    imageSlider.currentItem = position
+                    if (position == imageSlider.adapter?.itemCount?.minus(1)!!) {
+                        nextButton.visibility = View.GONE
+                    }
+                }
+            }
+        })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.share_rocket, menu)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(IMAGE_SLIDER_POSITION, position)
     }
 
-    fun onOptionsItemSelected(item: MenuItem, details: RocketDetails): Boolean {
-        when(item.itemId) {
-            R.id.share -> shareSuccess(details)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item!!.itemId) {
+            R.id.share -> shareSuccess()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getShareIntent(details: RocketDetails): Intent {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.share_menu, menu)
+    }
+
+    private fun getShareIntent(): Intent {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, getString(
-                R.string.your_rocket, details.name, details.description, details.wikipedia,
-                details.heightDiameter.toString(), details.heightFeet.toString(),
-                details.massKg.toString(), details.massLb.toString(), details.firstFlight))
+                R.string.your_rocket, rocketName.text, description.text, wikiLink.text,
+                heightRocket.text,
+                mass.text, year.text))
         }
         return sendIntent
     }
 
-    private fun shareSuccess(details: RocketDetails) {
-        startActivity(getShareIntent(details))
-    }
-
-    private fun addDotView(currentPage: Int, dots: Array<TextView?>, view: View, images: Int) {
-        view.layoutDots.removeAllViews()
-        for (i in 0 until images) {
-            dots[i] = TextView(activity)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dots[i]?.text = Html.fromHtml("&#8226", Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                dots[i]?.text = Html.fromHtml("&#8226")
-            }
-            dots[i]?.textSize = 38f
-            dots[i]?.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.white))
-            view.layoutDots.addView(dots[i])
-        }
-        if (dots.isNotEmpty()) {
-            dots[currentPage]?.setTextColor(ContextCompat.getColor(requireActivity().applicationContext, R.color.teal_700))
-        }
+    private fun shareSuccess() {
+        startActivity(getShareIntent())
     }
 }

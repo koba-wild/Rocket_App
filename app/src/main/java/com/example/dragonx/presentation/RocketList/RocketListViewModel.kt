@@ -1,37 +1,36 @@
 package com.example.dragonx.viewmodel
 
 import androidx.lifecycle.*
-import com.example.dragonx.domain.GetRocketList
-import com.example.dragonx.model.data.RocketList
-import com.example.dragonx.model.util.ApiStatus
+import com.example.dragonx.domain.RocketRepository
+import com.example.dragonx.model.data.JsonObjects.Rocket
+import com.example.dragonx.model.util.StatusChecker
 import kotlinx.coroutines.*
 
 class RocketListViewModel : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus>
+    private val _status = MutableLiveData<StatusChecker<List<Rocket>>>()
+    val status: LiveData<StatusChecker<List<Rocket>>>
         get() = _status
-    var rocketsData = MutableLiveData<List<RocketList>>()
-    private val rocketListParser = GetRocketList()
-    lateinit var myException: Exception
+    var _rocketsData = MutableLiveData<List<Rocket>>()
+    val rocketsData: LiveData<List<Rocket>>
+        get() = _rocketsData
+    private val rocketData = RocketRepository()
+    var position = 0
 
     init {
         getRockets()
     }
 
-    fun getRockets() {
+    private fun getRockets() {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 try {
-                    _status.postValue(ApiStatus.LOADING)
-                    rocketsData.postValue(rocketListParser.getRocketData() ?:null)
-                    _status.postValue(ApiStatus.DONE)
+                    _rocketsData.postValue(rocketData.downloadRocketsData())
+                    _status.postValue(StatusChecker.Done(rocketData.downloadRocketsData()))
                 } catch (e: Exception) {
-                    _status.postValue(ApiStatus.ERROR)
-                    myException = e
+                    _status.postValue(StatusChecker.Error(e))
                 }
             }
         }
     }
-
 }
 
