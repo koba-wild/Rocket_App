@@ -40,7 +40,6 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         recyclerView.adapter = adapter
         errorPicture.isVisible = true
         errorPicture.setImageResource(R.drawable.loading_anim)
-
         viewModel.status.observe(viewLifecycleOwner, {
             when (it) {
                 is StatusChecker.Error -> {
