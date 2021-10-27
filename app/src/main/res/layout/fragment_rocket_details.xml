@@ -8,6 +8,7 @@
     tools:context=".presentation.RocketDetails.RocketDetailsFragment">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -31,7 +32,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_200sdp"
+                    android:layout_height="250dp"
                     app:layout_constraintBottom_toTopOf="@+id/rocketName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -40,16 +41,16 @@
 
                 <ImageButton
                     android:id="@+id/before_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/image_button_layout"
+                    android:layout_height="@dimen/image_button_layout"
                     android:layout_gravity="center_vertical|start"
                     android:src="@drawable/ic_action_before"
                     android:contentDescription="@string/before_button" />
 
                 <ImageButton
                     android:id="@+id/next_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/image_button_layout"
+                    android:layout_height="@dimen/image_button_layout"
                     android:layout_gravity="center_vertical|end"
                     android:src="@drawable/ic_action_next"
                     android:contentDescription="@string/next_button" />
@@ -61,10 +62,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/merriweather_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,10 +75,10 @@
                 android:id="@+id/description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin_end"
                 android:fontFamily="@font/merriweather_light"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rocketName" />
@@ -86,11 +87,11 @@
                 android:id="@+id/wikiLink"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/layout_margin"
                 android:fontFamily="@font/merriweather_light"
                 android:autoLink="web"
                 android:textColor="@color/purple_700"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
@@ -99,9 +100,9 @@
                 android:id="@+id/heightRocket"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:textSize="@dimen/_14sdp"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin_end"
+                android:textSize="@dimen/text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wikiLink" />
@@ -110,9 +111,9 @@
                 android:id="@+id/mass"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:textSize="@dimen/_14sdp"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin_end"
+                android:textSize="@dimen/text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/heightRocket" />
@@ -121,9 +122,9 @@
                 android:id="@+id/year"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:textSize="@dimen/_14sdp"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin_end"
+                android:textSize="@dimen/text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mass" />

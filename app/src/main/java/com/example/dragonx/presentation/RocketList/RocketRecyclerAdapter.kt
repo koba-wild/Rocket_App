@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.example.dragonx.model.data.JsonObjects.Rocket
 import com.example.dragonx.presentation.RocketList.DiffCallback
-import com.example.dragonx.model.data.RocketList
 
 class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
-) : ListAdapter<RocketList, RecyclerView.ViewHolder>(DiffCallback()) {
+) : ListAdapter<Rocket, RecyclerView.ViewHolder>(DiffCallback<Rocket>()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -26,7 +25,7 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is RocketViewHolder -> {
-                val item = getItem(position) as RocketList
+                val item = getItem(position) as Rocket
                 holder.bind(item, clickListener)
             }
         }
@@ -37,12 +36,12 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
         val rocketTitle: TextView = itemView.findViewById(R.id.rocket_title)
         val rocketYear: TextView = itemView.findViewById(R.id.rockets_year)
         val rocketsImage: ImageView = itemView.findViewById(R.id.rockets_image)
-        fun bind(rocket: RocketList, action: OnRocketClickListener) {
+        fun bind(rocket: Rocket, action: OnRocketClickListener) {
             rocketTitle.setText(rocket.name)
             rocketYear.setText(rocket.firstFlight)
             Glide.with(itemView.context)
-                    .load(rocket.flickrImages)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .load(rocket.flickrImages?.get(0))
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.drawable.loading_anim)
                     .error(R.drawable.ic_launcher_background)
                     .into(rocketsImage)
@@ -54,5 +53,5 @@ class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
 }
 
 interface OnRocketClickListener {
-    fun onRocketClick(rocket: RocketList, position: Int)
+    fun onRocketClick(rocket: Rocket, position: Int)
 }

@@ -6,9 +6,12 @@ import android.view.*
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.dragonx.R
+import com.example.dragonx.model.util.Constants.Companion.IMAGE_SLIDER_POSITION
+import com.example.dragonx.viewmodel.RocketListViewModel
 
 
 class RocketDetailsFragment : Fragment() {
@@ -22,6 +25,14 @@ class RocketDetailsFragment : Fragment() {
     private val year: TextView by lazy { requireView().findViewById(R.id.year) }
     private val beforeButton: ImageButton by lazy { requireView().findViewById(R.id.before_button) }
     private val nextButton: ImageButton by lazy { requireView().findViewById(R.id.next_button) }
+    private lateinit var adapter: ImageSliderAdapter
+    private var position = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        position = savedInstanceState?.getInt(IMAGE_SLIDER_POSITION) ?: 0
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,29 +45,29 @@ class RocketDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
         imageSlider.isUserInputEnabled = false
-//        val rocketName = view.findViewById<TextView>(R.id.rocketName)
-//        val description = view.findViewById<TextView>(R.id.description)
-//        val wikiLink = view.findViewById<TextView>(R.id.wikiLink)
-//        val heightRocket = view.findViewById<TextView>(R.id.heightRocket)
-//        val mass = view.findViewById<TextView>(R.id.mass)
-//        val year = view.findViewById<TextView>(R.id.year)
+
         setHasOptionsMenu(true)
-        val adapter = ImageSliderAdapter()
-        val rocketDetails = args.rocketDetails
-        rocketName.text = rocketDetails.name
-        description.text = rocketDetails.description
-        wikiLink.text = rocketDetails.wikipedia
+        adapter = ImageSliderAdapter()
+        val rocket = args.rocket
+        rocketName.text = rocket.name
+        description.text = rocket.description
+        wikiLink.text = rocket.wikipedia
         heightRocket.text = getString(
-            R.string.rocket_diameter, rocketDetails.heightDiameter, rocketDetails.heightFeet)
-        mass.text = getString(R.string.rocket_mass, rocketDetails.massKg, rocketDetails.massLb)
-        year.text = rocketDetails.firstFlight
-        adapter.submitList(rocketDetails.flickrImages)
+            R.string.rocket_diameter, rocket.diameter.meters, rocket.diameter.feet)
+        mass.text = getString(R.string.rocket_mass, rocket.massKg, rocket.massLb)
+        year.text = rocket.firstFlight
+        adapter.submitList(rocket.flickrImages)
         imageSlider.adapter = adapter
 
-        beforeButton.visibility = View.GONE
+        if (position == 0) {
+            beforeButton.visibility = View.GONE
+        } else if (position == imageSlider.adapter?.itemCount?.minus(1)!!) {
+            nextButton.visibility = View.GONE
+        }
+
         beforeButton.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
-                var position = imageSlider.currentItem
+                position = imageSlider.currentItem
                 nextButton.visibility = View.VISIBLE
                 if (position > 0) {
                     position--
@@ -70,7 +81,7 @@ class RocketDetailsFragment : Fragment() {
 
         nextButton.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
-                var position = imageSlider.currentItem
+                position = imageSlider.currentItem
                 beforeButton.visibility = View.VISIBLE
                 if (position < imageSlider.adapter?.itemCount?.minus(1)!!) {
                     position++
@@ -81,6 +92,11 @@ class RocketDetailsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(IMAGE_SLIDER_POSITION, position)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

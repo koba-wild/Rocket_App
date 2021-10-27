@@ -14,10 +14,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
-import com.example.dragonx.domain.GetRocketDetails
-import com.example.dragonx.domain.GetRocketList
+import com.example.dragonx.model.data.JsonObjects.Rocket
 import com.example.dragonx.presentation.TopSpacingItemDecoration
-import com.example.dragonx.model.data.RocketList
 import com.example.dragonx.model.util.StatusChecker
 import com.example.dragonx.viewmodel.RocketListViewModel
 
@@ -25,6 +23,7 @@ import com.example.dragonx.viewmodel.RocketListViewModel
 class RocketListFragment : Fragment(), OnRocketClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this).get(RocketListViewModel::class.java) }
+    private lateinit var adapter: RocketRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +36,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)
 
-        val adapter = RocketRecyclerAdapter(this)
+        adapter = RocketRecyclerAdapter(this)
         recyclerView.adapter = adapter
         errorPicture.isVisible = true
         errorPicture.setImageResource(R.drawable.loading_anim)
@@ -50,7 +49,7 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
                     Toast.makeText(context, getString(R.string.error_warning, it.myException), Toast.LENGTH_LONG).show()
                 }
                 is StatusChecker.Done -> {
-                    adapter.submitList(GetRocketList.getData(it.data))
+                    adapter.submitList(it.data)
                     errorPicture.visibility = View.GONE
                 }
             }
@@ -58,10 +57,10 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         return view
     }
 
-    override fun onRocketClick(rocket: RocketList, position : Int) {
+    override fun onRocketClick(rocket: Rocket, position : Int) {
         viewModel.rocketsData.observe(viewLifecycleOwner, {
             val action = RocketListFragmentDirections
-                .actionRocketListFragmentToRocketDetailsFragment(GetRocketDetails.getData(it, position))
+                .actionRocketListFragmentToRocketDetailsFragment(it[position])
             view?.findNavController()?.navigate(action)
         })
     }

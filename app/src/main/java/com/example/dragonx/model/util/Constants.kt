@@ -4,6 +4,6 @@ class Constants {
 
     companion object{
         const val BASE_URL = "https://api.spacexdata.com"
-        const val BROKEN_STRING = "https://api.spacesdssd.com/"
+        const val IMAGE_SLIDER_POSITION = "Image slider position"
     }
 }
