@@ -1,7 +1,7 @@
 package com.example.dragonx.domain
 
 
-import com.example.dragonx.model.data.JsonObjects.Rocket
+import com.example.dragonx.model.data.jsonObjects.Rocket
 import retrofit2.http.GET
 
 interface RemoteApiService {

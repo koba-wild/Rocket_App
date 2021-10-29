@@ -1,11 +1,10 @@
 package com.example.dragonx.domain.db
 
-import androidx.lifecycle.LiveData
-import com.example.dragonx.model.data.JsonObjects.Rocket
+import com.example.dragonx.model.data.jsonObjects.Rocket
 
 class RocketRepository (private val rocketDao: RocketDao) {
 
-    val getAllRockets: LiveData<List<Rocket>> = rocketDao.getAllRockets()
+    fun getAllRockets() = rocketDao.getAllRockets()
 
     suspend fun addRocket(rocket: Rocket) = rocketDao.addRocket(rocket)
 

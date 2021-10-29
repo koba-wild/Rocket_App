@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.dragonx.model.data.JsonObjects.Rocket
-import com.example.dragonx.presentation.RocketList.DiffCallback
+import com.example.dragonx.model.data.jsonObjects.Rocket
+import com.example.dragonx.presentation.rocketList.DiffCallback
 
 class RocketRecyclerAdapter(val clickListener: OnRocketClickListener
 ) : ListAdapter<Rocket, RecyclerView.ViewHolder>(DiffCallback<Rocket>()) {

@@ -1,4 +1,4 @@
-package com.example.dragonx.model.data.JsonObjects
+package com.example.dragonx.model.data.jsonObjects
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

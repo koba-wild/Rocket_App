@@ -2,11 +2,11 @@ package com.example.dragonx.domain.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.dragonx.model.data.JsonObjects.Rocket
+import com.example.dragonx.model.data.jsonObjects.Rocket
 
 @Dao
 interface RocketDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addRocket(rocket: Rocket)
 
     @Update

@@ -1,4 +1,4 @@
-package com.example.dragonx.presentation.RocketDetails
+package com.example.dragonx.presentation.rocketDetails
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.example.dragonx.R
-import com.example.dragonx.presentation.RocketList.DiffCallback
+import com.example.dragonx.presentation.rocketList.DiffCallback
 import com.google.android.material.imageview.ShapeableImageView
 
 class ImageSliderAdapter : ListAdapter<String, RecyclerView.ViewHolder>(DiffCallback()) {

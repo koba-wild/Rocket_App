@@ -1,4 +1,4 @@
-package com.example.dragonx.presentation.RocketList
+package com.example.dragonx.presentation.rocketList
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

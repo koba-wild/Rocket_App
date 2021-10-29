@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/rocketListFragment"
-        android:name="com.example.dragonx.presentation.RocketList.RocketListFragment"
+        android:name="com.example.dragonx.presentation.rocketList.RocketListFragment"
         android:label="DragonX rockets"
         tools:layout="@layout/fragment_rocket_list" >
         <action
@@ -20,11 +20,11 @@
     </fragment>
     <fragment
         android:id="@+id/rocketDetailsFragment"
-        android:name="com.example.dragonx.presentation.RocketDetails.RocketDetailsFragment"
+        android:name="com.example.dragonx.presentation.rocketDetails.RocketDetailsFragment"
         android:label="Rocket details"
         tools:layout="@layout/fragment_rocket_details" >
         <argument
             android:name="rocket"
-            app:argType="com.example.dragonx.model.data.JsonObjects.Rocket" />
+            app:argType="com.example.dragonx.model.data.jsonObjects.Rocket" />
     </fragment>
 </navigation>

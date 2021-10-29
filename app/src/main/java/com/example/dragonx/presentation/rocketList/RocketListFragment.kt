@@ -1,4 +1,4 @@
-package com.example.dragonx.presentation.RocketList
+package com.example.dragonx.presentation.rocketList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,30 +8,34 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
-import com.example.dragonx.model.data.JsonObjects.Rocket
-import com.example.dragonx.presentation.TopSpacingItemDecoration
+import com.example.dragonx.domain.db.RocketApplication
+import com.example.dragonx.model.data.jsonObjects.Rocket
 import com.example.dragonx.model.util.StatusChecker
-import com.example.dragonx.viewmodel.RocketListViewModel
+import com.example.dragonx.presentation.TopSpacingItemDecoration
 
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
+    private val viewModel: RocketListViewModel by viewModels {
+        ViewModelFactory((activity?.application as RocketApplication).repository)
+    }
 
-    private val viewModel by lazy { ViewModelProvider(this).get(RocketListViewModel::class.java) }
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RocketRecyclerAdapter
+    private lateinit var errorPicture: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view  =  inflater.inflate(R.layout.fragment_rocket_list, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val errorPicture = view.findViewById<ImageView>(R.id.imageForError)
+        val view = inflater.inflate(R.layout.fragment_rocket_list, container, false)
+        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        errorPicture = view.findViewById<ImageView>(R.id.imageForError)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val topSpacingItemDecoration = TopSpacingItemDecoration(30)
         recyclerView.addItemDecoration(topSpacingItemDecoration)
