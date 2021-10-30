@@ -22,7 +22,7 @@ import com.example.dragonx.presentation.TopSpacingItemDecoration
 
 class RocketListFragment : Fragment(), OnRocketClickListener {
     private val viewModel: RocketListViewModel by viewModels {
-        ViewModelFactory((activity?.application as RocketApplication).repository)
+        ViewModelFactory((activity?.applicationContext as RocketApplication).repository)
     }
 
     private lateinit var recyclerView: RecyclerView
@@ -43,19 +43,9 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         adapter = RocketRecyclerAdapter(this)
         recyclerView.adapter = adapter
         errorPicture.isVisible = true
-        errorPicture.setImageResource(R.drawable.loading_anim)
-        viewModel.status.observe(viewLifecycleOwner, {
-            when (it) {
-                is StatusChecker.Error -> {
-                    errorPicture.isVisible = true
-                    errorPicture.setImageResource(R.drawable.ic_connection_error)
-                    Toast.makeText(context, getString(R.string.error_warning, it.myException), Toast.LENGTH_LONG).show()
-                }
-                is StatusChecker.Done -> {
-                    adapter.submitList(it.data)
-                    errorPicture.visibility = View.GONE
-                }
-            }
+
+        viewModel.rocketsData.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
         })
         return view
     }

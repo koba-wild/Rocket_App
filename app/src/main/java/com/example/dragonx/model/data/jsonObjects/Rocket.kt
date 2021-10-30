@@ -14,8 +14,7 @@ data class Rocket (
     @SerializedName("name") val name: String?,
     @SerializedName("description") val description: String?,
     @SerializedName("wikipedia") val wikipedia: String?,
-    @Embedded
-    @SerializedName("diameter") val diameter: Diameter,
+    @SerializedName("diameter") @Embedded val diameter: Diameter,
     @SerializedName("dry_mass_kg") val massKg: Int?,
     @SerializedName("dry_mass_lb") val massLb: Int?,
     @SerializedName("first_flight") val firstFlight: String?,

@@ -9,6 +9,9 @@ interface RocketDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addRocket(rocket: Rocket)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun addAllRockets(rockets: List<Rocket>)
+
     @Update
     fun update(rocket: Rocket)
 
