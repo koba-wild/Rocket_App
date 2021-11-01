@@ -8,8 +8,8 @@
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="to_show_error">To show ERROR</string>
-    <string name="rocket_diameter">Diameter: %.1f, feet: %d</string>
-    <string name="rocket_mass">Dry mass: %dkg (%dlb)</string>
+    <string name="rocket_diameter">Diameter: %1$.1f, feet: %2$d</string>
+    <string name="rocket_mass">Dry mass: %1$dkg (%2$dlb)</string>
     <string name="dragonX_rockets">DragonX Rockets</string>
     <string name="details">Details</string>
     <string name="share_a_rocket">Share a rocket</string>
@@ -25,4 +25,5 @@
     <string name="before_button">before button</string>
     <string name="next_button">next button</string>
     <string name="rockets_picture">A rockets picture</string>
+    <string name="Your_rocket">TODO</string>
 </resources>

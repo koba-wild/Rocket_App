@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="your_rocket" type="id">Your rocket</item>
+    <item name="your_rocket" type="id"/>
 </resources>
