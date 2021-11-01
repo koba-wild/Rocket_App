@@ -1,4 +1,4 @@
-package com.example.dragonx.presentation.RocketDetails
+package com.example.dragonx.presentation.rocketDetails
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,10 @@ import android.view.*
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.dragonx.R
 import com.example.dragonx.model.util.Constants.Companion.IMAGE_SLIDER_POSITION
-import com.example.dragonx.viewmodel.RocketListViewModel
 
 
 class RocketDetailsFragment : Fragment() {
@@ -27,6 +25,7 @@ class RocketDetailsFragment : Fragment() {
     private val nextButton: ImageButton by lazy { requireView().findViewById(R.id.next_button) }
     private lateinit var adapter: ImageSliderAdapter
     private var position = 0
+    private lateinit var imageSlider: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +42,7 @@ class RocketDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
+        imageSlider = view.findViewById<ViewPager2>(R.id.viewPager)
         imageSlider.isUserInputEnabled = false
 
         setHasOptionsMenu(true)

@@ -13,7 +13,7 @@ object Retrofit {
             .build()
     }
 
-    fun buildApiService(): RemoteApiService =
-        buildRetrofit().create(RemoteApiService::class.java)
+    fun buildApiService(): RocketsApiService =
+        buildRetrofit().create(RocketsApiService::class.java)
 
 }
