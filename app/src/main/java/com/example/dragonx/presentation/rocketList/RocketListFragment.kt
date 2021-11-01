@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dragonx.*
 import com.example.dragonx.domain.db.RocketApplication
 import com.example.dragonx.model.data.jsonObjects.Rocket
-import com.example.dragonx.model.util.StatusChecker
 import com.example.dragonx.presentation.TopSpacingItemDecoration
 
 
@@ -43,9 +41,11 @@ class RocketListFragment : Fragment(), OnRocketClickListener {
         adapter = RocketRecyclerAdapter(this)
         recyclerView.adapter = adapter
         errorPicture.isVisible = true
+        errorPicture.setImageResource(R.drawable.loading_anim)
 
         viewModel.rocketsData.observe(viewLifecycleOwner, {
             adapter.submitList(it)
+            errorPicture.isVisible = false
         })
         return view
     }

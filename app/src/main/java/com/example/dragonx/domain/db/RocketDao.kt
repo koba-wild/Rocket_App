@@ -6,7 +6,7 @@ import com.example.dragonx.model.data.jsonObjects.Rocket
 
 @Dao
 interface RocketDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addRocket(rocket: Rocket)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -21,7 +21,7 @@ interface RocketDao {
     @Query("DELETE from rockets_table")
     fun clear()
 
-    @Query("SELECT * FROM rockets_table ORDER BY name DESC")
+    @Query("SELECT * FROM rockets_table ORDER BY name ASC")
     fun getAllRockets(): LiveData<List<Rocket>>
 
 }

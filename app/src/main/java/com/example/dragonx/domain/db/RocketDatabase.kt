@@ -14,13 +14,12 @@ abstract class RocketDatabase : RoomDatabase() {
 
     abstract fun rocketDao() : RocketDao
 
-
     companion object {
         @Volatile
         private var INSTANCE: RocketDatabase? = null
 
         fun getInstance(
-            context: Context, scope: CoroutineScope
+            context: Context
         ): RocketDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(

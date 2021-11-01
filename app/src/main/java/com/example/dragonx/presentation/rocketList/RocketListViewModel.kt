@@ -3,7 +3,6 @@ package com.example.dragonx.presentation.rocketList
 import androidx.lifecycle.*
 import com.example.dragonx.domain.db.RocketRepository
 import com.example.dragonx.model.data.jsonObjects.Rocket
-import com.example.dragonx.model.util.StatusChecker
 import kotlinx.coroutines.*
 
 class RocketListViewModel(private val repository: RocketRepository) : ViewModel() {
