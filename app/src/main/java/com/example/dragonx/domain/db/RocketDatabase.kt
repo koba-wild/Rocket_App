@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.dragonx.model.data.jsonObjects.Rocket
-import kotlinx.coroutines.CoroutineScope
+
 
 @Database(entities = [Rocket::class], version = 1,  exportSchema = true)
 @TypeConverters(TypeConverter::class)

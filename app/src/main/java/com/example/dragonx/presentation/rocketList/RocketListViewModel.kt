@@ -7,11 +7,12 @@ import kotlinx.coroutines.*
 
 class RocketListViewModel(private val repository: RocketRepository) : ViewModel() {
 
+    private lateinit var rockets: List<Rocket>
     val rocketsData: LiveData<List<Rocket>> = repository.getAllRockets()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val rockets = repository.getRemoteRockets()
+            rockets = repository.getRemoteRockets()
             repository.addAllRockets(rockets)
         }
     }
