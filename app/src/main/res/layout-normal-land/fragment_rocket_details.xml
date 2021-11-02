@@ -31,8 +31,9 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
+                    android:layout_width="375dp"
                     android:layout_height="250dp"
+                    android:layout_gravity="center"
                     app:layout_constraintBottom_toTopOf="@+id/rocketName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +119,7 @@
                 android:textSize="@dimen/text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/heightRocket" />
+                app:layout_constraintTop_toBottomOf="@+id/heightRocket"/>
 
             <TextView
                 android:id="@+id/year"

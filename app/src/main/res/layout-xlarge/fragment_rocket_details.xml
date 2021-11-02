@@ -31,8 +31,9 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
+                    android:layout_width="375dp"
                     android:layout_height="250dp"
+                    android:layout_gravity="center"
                     app:layout_constraintBottom_toTopOf="@+id/rocketName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +42,9 @@
 
                 <ImageButton
                     android:id="@+id/before_button"
-                    android:layout_width="@dimen/image_button_layout"
-                    android:layout_height="@dimen/image_button_layout"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center_vertical|start"
                     android:contentDescription="@string/before_button"
                     android:src="@drawable/ic_action_before"
@@ -50,8 +52,9 @@
 
                 <ImageButton
                     android:id="@+id/next_button"
-                    android:layout_width="@dimen/image_button_layout"
-                    android:layout_height="@dimen/image_button_layout"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center_vertical|end"
                     android:contentDescription="@string/next_button"
                     android:src="@drawable/ic_action_next"
